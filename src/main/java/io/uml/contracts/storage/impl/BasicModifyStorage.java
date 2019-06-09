@@ -24,7 +24,7 @@ public abstract class BasicModifyStorage<T extends BaseModifyModel<ID>, ID exten
 
     @Override
     public Optional<T> save(T t) {
-        if(!isValid(t))
+        if (!isValid(t))
             return Optional.empty();
 
         t.modify();

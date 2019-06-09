@@ -8,7 +8,7 @@ import java.util.UUID;
  * @author GoodforGod
  * @since 09.06.2019
  */
-public class BaseUuidModifyModel extends BaseModifyModel<String> {
+public abstract class BaseUuidModifyModel extends BaseModifyModel<String> {
 
     public BaseUuidModifyModel() {
         super(UUID.randomUUID().toString());

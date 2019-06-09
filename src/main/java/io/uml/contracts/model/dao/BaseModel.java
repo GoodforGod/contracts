@@ -1,5 +1,7 @@
 package io.uml.contracts.model.dao;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,8 +11,10 @@ import java.util.Objects;
  * @author GoodforGod
  * @since 09.06.2019
  */
+@Entity
 public abstract class BaseModel<ID extends Serializable> {
 
+    @Id
     private ID id;
 
     public BaseModel(ID id) {
