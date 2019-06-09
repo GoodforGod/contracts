@@ -1,4 +1,4 @@
-package io.uml.contracts.model;
+package io.uml.contracts.model.dao;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
