@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>Login</title>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+
+    <link th:href="@{/css/login.css}" href="../static/css/login.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="container">
+    <div class="panel panel-login" style="width: 50%; margin: 0 auto">
+        <div class="panel-body">
+            <form th:action="@{/login}" method="POST" autocomplete="off">
+                <h2>LOGIN</h2>
+                <div class="form-group">
+                    <input id="uid" name="uid" class="form-control" placeholder="Username"/>
+                </div>
+                <div class="form-group">
+                    <input id="password" name="password" type="password" class="form-control" placeholder="Password"/>
+                </div>
+                <div class="form-group" style="margin: 0 auto">
+                    <input type="submit" id="login-submit" class="btn btn-login" value="Log In" style="width: 200px"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

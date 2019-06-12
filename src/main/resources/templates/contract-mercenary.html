@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>Feedback</title>
+
+    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
+    <link th:href="@{/css/config.css}" href="../static/css/config.css" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/twicks.css}" href="../static/css/twicks.css" rel="stylesheet" type="text/css" />
+
+    <script th:day="scroll">
+        $(window).on("load resize ", function() {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({'padding-right':scrollWidth});
+        }).resize();
+    </script>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"> </div>
+
+    <section>
+        <!--/*@thymesVar id="feed" type="java.util.List"*/-->
+        <div th:if="${!feed.isEmpty()}">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width:10%"/>
+                        <col style="width:10%"/>
+                        <col style="width:40%"/>
+                        <col style="width:20%"/>
+                        <col style="width:20%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width:10%"/>
+                        <col style="width:10%"/>
+                        <col style="width:40%"/>
+                        <col style="width:20%"/>
+                        <col style="width:20%"/>
+                    </colgroup>
+                    <tbody>
+                    <tr th:each="feedback : ${feed}">
+                        <td th:text="${feedback.name}"></td>
+                        <td th:text="${feedback.username}"></td>
+                        <td th:text="${feedback.message}"></td>
+                        <td th:text="${feedback.created}"></td>
+                        <td th:if="${!feedback.isViewed()}">
+                            <form th:action="@{'/sec/feedback/view/' + ${feedback.id}}" th:method="GET">
+                                <button class="btn btn btn-info" name="feedback" th:accessLevel="${feedback.id}" type="Submit">
+                                    <span> Mark </span>
+                                </button>
+                            </form>
+                        </td>
+                        <td th:if="${feedback.isViewed()}">
+                            Viewed
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

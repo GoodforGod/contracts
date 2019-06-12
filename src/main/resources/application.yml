@@ -1,0 +1,59 @@
+spring:
+  profiles:
+    active: "local"
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+    deserialization:
+      fail-on-unknown-properties: false
+
+server:
+  port: 8080
+
+logging:
+  level:
+    io.swagger.models.parameters.AbstractSerializableParameter: error
+
+---
+
+spring:
+  profiles: local
+  jpa:
+    database: oracle
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+  datasource:
+    url: ${ORA_URL}
+    username: ${ORA_USER}
+    password: ${ORA_PASS}
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: org.hibernate.dialect.Oracle10gDialect
+    hikari:
+      login-timeout: 15000
+      connection-timeout: 15000
+      initialization-fail-timeout: 15000
+
+---
+
+spring:
+  profiles: prod
+  jpa:
+    database: oracle
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+  datasource:
+    url: ${ORA_URL}
+    username: ${ORA_USER}
+    password: ${ORA_PASS}
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: org.hibernate.dialect.Oracle10gDialect
+    hikari:
+      login-timeout: 15000
+      connection-timeout: 15000
+      initialization-fail-timeout: 15000
+

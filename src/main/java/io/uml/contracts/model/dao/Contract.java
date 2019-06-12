@@ -32,16 +32,31 @@ public class Contract extends BaseUuidModifyModel {
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private Client client;
+    private String title;
     private ContractPhase phase = ContractPhase.REQUIREMENTS;
     private String planet;
     private long reward = -1;
     private String requirements;
     private String comment;
     private boolean isApproved = false;
+    private ContractType type;
 
-    public Contract(Client client, String planet) {
+    public Contract(Client client, String title, String planet) {
         this.client = client;
         this.planet = planet;
+        this.title = title;
+    }
+
+    public ContractType getType() {
+        return type;
+    }
+
+    public void setType(ContractType type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public Flight getFlight() {

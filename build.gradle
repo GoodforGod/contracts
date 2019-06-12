@@ -20,6 +20,8 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.boot:spring-boot-starter-security'
 
     compile "io.springfox:springfox-swagger2:$swaggerVersion"
     compile "io.springfox:springfox-swagger-ui:$swaggerVersion"
@@ -27,8 +29,19 @@ dependencies {
     compile "com.github.goodforgod:dummymaker:$dummymakerVersion"
     compile "com.oracle:ojdbc7:$ojdbcVersion"
     compile 'javax.xml.bind:jaxb-api:2.3.0'
+    compile 'org.webjars:bootstrap:3.3.7'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testCompile "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
+}
+
+bootRun {
+    main = 'io.university.aggregator.AppStarter'
+
+    environment([
+            "ORA_USER": System.getenv("ORA_USER") ?: "$oraUser",
+            "ORA_PASS": System.getenv("ORA_PASS") ?: "$oraPass",
+            "ORA_URL" : System.getenv("ORA_URL") ?: "$oraUrl"
+    ])
 }
