@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 09.06.2019
  */
 @Component
-public class FlightStorage extends BasicModifyStorage<Flight, String> {
+public class FlightStorage extends BasicStorage<Flight, String> {
 
     @Autowired
     public FlightStorage(FlightRepository repository) {

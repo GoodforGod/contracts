@@ -1,0 +1,47 @@
+nav a {
+    position: relative;
+    display: inline-block;
+    margin: 1px 1px;
+    outline: none;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 300;
+    text-shadow: 0 0 1px rgba(255,255,255,0.3);
+    font-size: 1.25em;
+}
+
+nav a:hover,
+nav a:focus {
+    outline: none;
+}
+
+.a-effect a {
+    overflow: hidden;
+}
+
+.a-effect a span {
+    position: relative;
+    display: inline-block;
+    -webkit-transition: -webkit-transform 0.3s;
+    -moz-transition: -moz-transform 0.3s;
+    transition: transform 0.3s;
+}
+
+.a-effect a span::before {
+    position: absolute;
+    top: 100%;
+    content: attr(data-hover);
+    font-weight: 500;
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+
+.a-effect a:hover span,
+.a-effect a:focus span {
+    -webkit-transform: translateY(-100%);
+    -moz-transform: translateY(-100%);
+    transform: translateY(-100%);
+}

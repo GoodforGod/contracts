@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author GoodforGod
  * @since 09.06.2019
  */
-public interface IStorage<T extends BaseModel<ID>, ID extends Serializable> {
+public interface IStorage<T, ID extends Serializable> {
 
     boolean exist(ID id);
 
@@ -23,7 +23,6 @@ public interface IStorage<T extends BaseModel<ID>, ID extends Serializable> {
     Optional<T> save(T t);
     List<T> save(Collection<T> t);
 
-    boolean delete(T t);
     boolean delete(ID id);
     boolean deleteAll();
 }

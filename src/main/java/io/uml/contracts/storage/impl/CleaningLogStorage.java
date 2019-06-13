@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 09.06.2019
  */
 @Component
-public class CleaningLogStorage extends BasicModifyStorage<CleaningLog, String> {
+public class CleaningLogStorage extends BasicStorage<CleaningLog, String> {
 
     @Autowired
     public CleaningLogStorage(CleaningLogRepository repository) {

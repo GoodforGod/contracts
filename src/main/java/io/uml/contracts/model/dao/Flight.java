@@ -1,8 +1,8 @@
 package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * ! NO DESCRIPTION !
@@ -11,44 +11,37 @@ import java.util.List;
  * @since 09.06.2019
  */
 @Entity
-public class Flight extends BaseUuidModifyModel {
+public class Flight implements Serializable {
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_uid")
-    private Contract contract;
-    private List<String> route = new ArrayList<>();
+    @Id
+    private String id;
+//
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "contract_uid")
+//    private Contract contract;
+    private String route;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "participants",
-            joinColumns = {@JoinColumn(name = "mercenary_id")},
-            inverseJoinColumns = {@JoinColumn(name = "flight_id")}
-    )
-    private List<Mercenary> participants = new ArrayList<>();
-
-    public Contract getContract() {
-        return contract;
+    public String getId() {
+        return id;
     }
 
-    public void setContract(Contract contract) {
-        this.contract = contract;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public List<String> getRoute() {
+//    public Contract getContract() {
+//        return contract;
+//    }
+//
+//    public void setContract(Contract contract) {
+//        this.contract = contract;
+//    }
+
+    public String getRoute() {
         return route;
     }
 
-    public List<String> addRoute(String planet) {
-        this.route.add(planet);
-        return route;
-    }
-
-    public List<Mercenary> getParticipants() {
-        return participants;
-    }
-
-    public List<Mercenary> addParticipant(Mercenary mercenary) {
-        this.participants.add(mercenary);
-        return participants;
+    public void setRoute(String route) {
+        this.route = route;
     }
 }

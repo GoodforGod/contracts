@@ -1,0 +1,111 @@
+body {
+    padding-top: 90px;
+    background:#F7F7F7;
+    color:#666666;
+    font-family: 'Century Gothic', sans-serif;
+    font-weight:100;
+}
+
+body{
+    width: 100%;
+    background: -webkit-linear-gradient(left, #d62d67, #981a64, #b42061, #d32c7e);
+    background: linear-gradient(to right, #b42061, #d32c7e, #d62d67, #981a64);
+    background-size: 600% 100%;
+    -webkit-animation: HeroBG 20s ease infinite;
+    animation: HeroBG 20s ease infinite;
+}
+
+@-webkit-keyframes HeroBG {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+@keyframes HeroBG {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+label {
+    font-weight: 300;
+}
+
+.panel-login .checkbox label {
+    font-weight: 300;
+}
+
+.panel-login .checkbox label::before {
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    background-color: #fff;
+    -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.panel-login .checkbox label::after {
+    padding-top: 1px;
+    font-size: 11px;
+    color: #555555;
+}
+
+.panel-login>.panel-heading a{
+    color: #666;
+    font-weight: 300;
+    font-size: 16px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+}
+
+.panel-login input[type="uid"], .panel-login input[type="password"] {
+    height: 45px;
+    border: 0;
+    font-size: 16px;
+    -webkit-transition: all 0.1s linear;
+    -moz-transition: all 0.1s linear;
+    transition: all 0.1s linear;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-bottom: 1px solid #e7e7e7;
+    border-radius: 0;
+    padding: 6px 0;
+}
+
+.panel-login input:hover,
+.panel-login input:focus {
+    outline:none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: #ccc;
+}
+
+.btn-login {
+    background-color: #E8E9EC;
+    outline: none;
+    color: #2D3B55;
+    font-size: 14px;
+    height: auto;
+    font-weight: normal;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+.btn-login:hover,
+.btn-login:focus {
+    color: #fff;
+    background-color: #2D3B55;
+}

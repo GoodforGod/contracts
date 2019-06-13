@@ -1,9 +1,8 @@
 package io.uml.contracts.model.dao;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * ! NO DESCRIPTION !
@@ -12,7 +11,7 @@ import javax.persistence.OneToOne;
  * @since 09.06.2019
  */
 @Entity
-public class Contract extends BaseUuidModifyModel {
+public class Contract implements Serializable {
 
     public enum ContractType {
         ELIMINATION,
@@ -27,11 +26,14 @@ public class Contract extends BaseUuidModifyModel {
         DONE
     }
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
-    private Flight flight;
+    @Id
+    private String id;
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+//    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
+//    private Flight flight;
+    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
     private Client client;
+
     private String title;
     private ContractPhase phase = ContractPhase.REQUIREMENTS;
     private String planet;
@@ -41,10 +43,20 @@ public class Contract extends BaseUuidModifyModel {
     private boolean isApproved = false;
     private ContractType type;
 
-    public Contract(Client client, String title, String planet) {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
         this.client = client;
-        this.planet = planet;
-        this.title = title;
     }
 
     public ContractType getType() {
@@ -59,20 +71,16 @@ public class Contract extends BaseUuidModifyModel {
         return title;
     }
 
-    public Flight getFlight() {
-        return flight;
-    }
-
-    public void setFlight(Flight flight) {
-        this.flight = flight;
-    }
+//    public Flight getFlight() {
+//        return flight;
+//    }
+//
+//    public void setFlight(Flight flight) {
+//        this.flight = flight;
+//    }
 
     public ContractPhase getPhase() {
         return phase;
-    }
-
-    public Client getClient() {
-        return client;
     }
 
     public String getPlanet() {
@@ -117,5 +125,13 @@ public class Contract extends BaseUuidModifyModel {
 
     public void approve() {
         this.isApproved = true;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
     }
 }

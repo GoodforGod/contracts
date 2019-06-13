@@ -1,5 +1,7 @@
 package io.uml.contracts.model.dao;
 
+import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

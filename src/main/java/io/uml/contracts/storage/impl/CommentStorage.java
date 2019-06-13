@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 09.06.2019
  */
 @Component
-public class CommentStorage extends BasicModifyStorage<Comment, String> {
+public class CommentStorage extends BasicStorage<Comment, String> {
 
     @Autowired
     public CommentStorage(CommentRepository repository) {

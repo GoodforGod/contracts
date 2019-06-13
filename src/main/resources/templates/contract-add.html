@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>Config</title>
+
+    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <link th:href="@{/css/config.css}" href="../static/css/config.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/twicks.css}" href="../static/css/twicks.css" rel="stylesheet" type="text/css"/>
+
+    <script th:day="scroll">
+        $(window).on("load resize ", function () {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({'padding-right': scrollWidth});
+        }).resize();
+    </script>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container">
+        <form th:action="@{'/sec/contracts/api'}" th:method="POST">
+            <fieldset class="form-inline">
+                <label>Type:</label>
+                <select name="access" class="form-control" style="width: 100px">
+                    <option th:each="type : ${T(io.uml.contracts.model.dao.Contract.ContractType).values()}"
+                            th:contractType ="${type}"
+                            th:text="${type}">
+                    </option>
+                </select>
+                <div>
+                    <div style="padding: 5px">
+                        <textarea name="description" placeholder="Mission description" class="form-control" rows="4"
+                                  cols="40" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <div style="padding: 5px; display: block">
+                        <input name="reward" placeholder="Enter mission reward..." class="form-control" autocomplete="off"
+                               style="width: 220px"/>
+                    </div>
+                    <div style="padding: 5px">
+                        <textarea name="comment" placeholder="Enter mission comment" class="form-control" rows="4"
+                                  cols="40" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div style="padding: 5px">
+                    <button class="btn btn-info" type="Submit" style="width: 80px">
+                        <span> Post </span>
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>

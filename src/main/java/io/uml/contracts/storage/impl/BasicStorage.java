@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author GoodforGod
  * @since 16.02.2019
  */
-public abstract class BasicStorage<T extends BaseModel<ID>, ID extends Serializable>
+public abstract class BasicStorage<T, ID extends Serializable>
         extends BasicStorageUtils<T, ID>
         implements IStorage<T, ID> {
 
@@ -78,11 +78,6 @@ public abstract class BasicStorage<T extends BaseModel<ID>, ID extends Serializa
             logger.error(e.getMessage());
             return Collections.emptyList();
         }
-    }
-
-    @Override
-    public boolean delete(T t) {
-        return isValid(t) && delete(t.getId());
     }
 
     @Override

@@ -1,8 +1,8 @@
 package io.uml.contracts.model.dao;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * ! NO DESCRIPTION !
@@ -11,22 +11,37 @@ import javax.persistence.OneToOne;
  * @since 09.06.2019
  */
 @Entity
-public class CleaningLog extends BaseUuidModifyModel {
+public class CleaningLog implements Serializable {
 
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
-    private Mercenary responsible;
+    @Id
+    private String id;
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "mercenary_id")
+//    private Mercenary responsible;
     private int minutesSpend;
 
-    public CleaningLog(int minutesSpend, Mercenary responsible) {
-        this.minutesSpend = minutesSpend;
-        this.responsible = responsible;
+    public String getId() {
+        return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+//
+//    public void setResponsible(Mercenary responsible) {
+//        this.responsible = responsible;
+//    }
+//
+//    public Mercenary getResponsible() {
+//        return responsible;
+//    }
 
     public int getMinutesSpend() {
         return minutesSpend;
     }
 
-    public Mercenary getResponsible() {
-        return responsible;
+    public void setMinutesSpend(int minutesSpend) {
+        this.minutesSpend = minutesSpend;
     }
 }

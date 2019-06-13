@@ -22,25 +22,44 @@
 
     <section>
         <!--/*@thymesVar id="keys" type="java.util.List"*/-->
-        <div th:if="${!keys.isEmpty()}">
+        <div th:if="${contract != null}">
+            <div class="tbl-header">
+                <p th:text="${contract.title}">
+                    <i></i>
+                </p>
+                <p th:text="${contract.planet}">
+                    <i></i>
+                </p>
+                <p th:text="${contract.type}">
+                    <i></i>
+                </p>
+                <p th:text="${contract.requirements}">
+                    <i></i>
+                </p>
+                <p th:text="${contract.comment}">
+                    <i>
+                        <form th:action="@{'/sec/contract/api/' + ${contract.id}}" th:method="DELETE">
+                            <button class="btn btn btn-info" name="key" th:accessLevel="${contract.id}" type="Submit">
+                                <span> Revoke </span>
+                            </button>
+                        </form>
+                    </i>
+                </p>
+            </div>
+        </div>
+        <div th:if="${!comments.isEmpty()}">
             <div class="tbl-header">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <colgroup>
-                        <col style="width:30%"/>
-                        <col style="width:10%"/>
+                        <col style="width:40%"/>
+                        <col style="width:40%"/>
                         <col style="width:20%"/>
-                        <col style="width:10%"/>
-                        <col style="width:20%"/>
-                        <col style="width:10%"/>
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>Key</th>
-                        <th>Type</th>
+                        <th>Author</th>
                         <th>Comment</th>
-                        <th>Username</th>
                         <th>Date</th>
-                        <th>Action</th>
                     </tr>
                     </thead>
                 </table>
@@ -48,54 +67,21 @@
             <div class="tbl-content">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <colgroup>
-                        <col style="width:30%"/>
-                        <col style="width:10%"/>
+                        <col style="width:40%"/>
+                        <col style="width:40%"/>
                         <col style="width:20%"/>
-                        <col style="width:10%"/>
-                        <col style="width:20%"/>
-                        <col style="width:10%"/>
                     </colgroup>
                     <tbody>
-                    <tr th:each="key : ${keys}">
-                        <td th:text="${key.id}"></td>
-                        <td th:text="${key.access}"></td>
-                        <td th:text="${key.comment}"></td>
-                        <td th:text="${key.chatId}"></td>
-                        <td th:text="${key.created}"></td>
-                        <td>
-                            <form th:action="@{'/sec/key/beta/' + ${key.id}}" th:method="DELETE">
-                                <button class="btn btn btn-info" name="key" th:accessLevel="${key.id}" type="Submit">
-                                    <span> Revoke </span>
-                                </button>
-                            </form>
-                        </td>
+                    <tr th:each="comment : ${comments}">
+                        <td th:text="${comment.name}"></td>
+                        <td th:text="${comment.created}"></td>
+                        <td th:text="${comment.created}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
-    <div class="container">
-        <form th:action="@{'/sec/key/beta'}" th:method="POST" class="form-horizontal">
-            <fieldset class="form-inline">
-                    <div class="col-md-6 text-center">
-                        <div>
-                            <input id="comment" name="comment" placeholder="Comment" class="form-control" style="width: 200px" autocomplete="off"/>
-                        </div>
-                    </div>
-                    <label>Type:</label>
-                    <select name="access" class="form-control" style="width: 100px">
-                        <option th:each="access : ${T(io.itmo.model.dao.BotKey.Access).values()}"
-                                th:accessLevel="${access}"
-                                th:text="${access}">
-                        </option>
-                    </select>
-                    <button class="btn btn-info" type="Submit">
-                        <span> Generate </span>
-                    </button>
-            </fieldset>
-        </form>
-    </div>
 </div>
 </body>
 </html>

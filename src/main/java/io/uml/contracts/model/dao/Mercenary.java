@@ -1,11 +1,10 @@
 package io.uml.contracts.model.dao;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * ! NO DESCRIPTION !
@@ -14,7 +13,7 @@ import java.util.Set;
  * @since 09.06.2019
  */
 @Entity
-public class Mercenary extends BaseUuidModifyModel {
+public class Mercenary implements Serializable {
 
     public enum MercenaryRoles {
         WARRIOR,
@@ -23,22 +22,47 @@ public class Mercenary extends BaseUuidModifyModel {
         COMBAT
     }
 
+    @Id
+    private String id;
+
     private String name;
     private String surname;
     private String group = "Galaxy Guardians";
     private MercenaryRoles role;
 
-    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
-    private Set<Flight> flights = new HashSet<>();
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "flight_participants",
+//            joinColumns = {@JoinColumn(name = "mercenary_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "flight_id")}
+//    )
+//    private Set<Flight> flights = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
+//    private Set<CleaningLog> logs = new HashSet<>();
+//
+//    @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
+//    private Set<WeaponLog> weaponLogs = new HashSet<>();
 
-    @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
-    private Set<WeaponLog> weaponLogs = new HashSet<>();
-
-    public Mercenary(String name, String surname, MercenaryRoles role) {
-        this.name = name;
-        this.surname = surname;
-        this.role = role;
+    public String getId() {
+        return id;
     }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+//
+//    public Set<CleaningLog> getLogs() {
+//        return logs;
+//    }
+//
+//    public Set<WeaponLog> getWeaponLogs() {
+//        return weaponLogs;
+//    }
+//
+//    public Set<Flight> getFlights() {
+//        return flights;
+//    }
 
     public String getName() {
         return name;
@@ -56,21 +80,41 @@ public class Mercenary extends BaseUuidModifyModel {
         return role;
     }
 
-    public Set<Flight> getFlights() {
-        return flights;
+//    public Flight addFlight(Flight flight) {
+//        this.flights.add(flight);
+//        return flight;
+//    }
+//
+//    public WeaponLog addLog(WeaponLog weaponLog) {
+//        this.weaponLogs.add(weaponLog);
+//        return weaponLog;
+//    }
+//
+//    public void setFlights(Set<Flight> flights) {
+//        this.flights = flights;
+//    }
+//
+//    public void setLogs(Set<CleaningLog> logs) {
+//        this.logs = logs;
+//    }
+//
+//    public void setWeaponLogs(Set<WeaponLog> weaponLogs) {
+//        this.weaponLogs = weaponLogs;
+//    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Flight addFlight(Flight flight) {
-        this.flights.add(flight);
-        return flight;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public Set<WeaponLog> getWeaponLogs() {
-        return weaponLogs;
+    public void setGroup(String group) {
+        this.group = group;
     }
 
-    public WeaponLog addLog(WeaponLog weaponLog) {
-        this.weaponLogs.add(weaponLog);
-        return weaponLog;
+    public void setRole(MercenaryRoles role) {
+        this.role = role;
     }
 }

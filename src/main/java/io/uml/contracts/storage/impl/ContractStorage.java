@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 09.06.2019
  */
 @Component
-public class ContractStorage extends BasicModifyStorage<Contract, String> {
+public class ContractStorage extends BasicStorage<Contract, String> {
 
     @Autowired
     public ContractStorage(ContractRepository repository) {

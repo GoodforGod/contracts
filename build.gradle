@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version "2.1.4.RELEASE"
+    id 'org.springframework.boot' version "2.0.2.RELEASE"
     id 'io.spring.dependency-management' version "1.0.7.RELEASE"
 }
 
@@ -37,7 +37,7 @@ dependencies {
 }
 
 bootRun {
-    main = 'io.university.aggregator.AppStarter'
+    main = 'io.uml.contracts.AppStarter'
 
     environment([
             "ORA_USER": System.getenv("ORA_USER") ?: "$oraUser",

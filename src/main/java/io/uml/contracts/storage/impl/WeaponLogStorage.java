@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 09.06.2019
  */
 @Component
-public class WeaponLogStorage extends BasicModifyStorage<WeaponLog, String> {
+public class WeaponLogStorage extends BasicStorage<WeaponLog, String> {
 
     @Autowired
     public WeaponLogStorage(WeaponLogRepository repository) {

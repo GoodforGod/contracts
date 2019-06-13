@@ -4,83 +4,54 @@
     <meta charset="UTF-8" content="text/html"/>
     <title>Feedback</title>
 
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css' />
-    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
-    <link th:href="@{/css/config.css}" href="../static/css/config.css" rel="stylesheet" type="text/css" />
-    <link th:href="@{/css/twicks.css}" href="../static/css/twicks.css" rel="stylesheet" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/config.css}" href="../static/css/config.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/twicks.css}" href="../static/css/twicks.css" rel="stylesheet" type="text/css"/>
 
     <script th:day="scroll">
-        $(window).on("load resize ", function() {
+        $(window).on("load resize ", function () {
             var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-            $('.tbl-header').css({'padding-right':scrollWidth});
+            $('.tbl-header').css({'padding-right': scrollWidth});
         }).resize();
     </script>
 </head>
 <body>
 <div>
-    <div th:replace="fragments/header :: header"> </div>
+    <div th:replace="fragments/header :: header"></div>
 
-    <section>
-        <!--/*@thymesVar id="holidays" type="java.util.List"*/-->
-        <div th:if="${!holidays.isEmpty()}">
-            <div class="tbl-header">
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <colgroup>
-                        <col style="width:10%"/>
-                        <col style="width:60%"/>
-                        <col style="width:30%"/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>Holiday</th>
-                        <th>Comment</th>
-                        <th>Action</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-            <div class="tbl-content">
-                <table cellpadding="0" cellspacing="0" border="0">
-                    <colgroup>
-                        <col style="width:10%"/>
-                        <col style="width:60%"/>
-                        <col style="width:30%"/>
-                    </colgroup>
-                    <tbody>
-                    <tr th:each="day : ${holidays}">
-                        <td th:text="${day.id}"></td>
-                        <td th:text="${day.comment}"></td>
-                        <td>
-                            <form th:action="@{'/sec/holidays/' + ${day.id}}" th:method="DELETE">
-                                <button class="btn btn btn-info" name="holiday" th:accessLevel="${day.id}" type="Submit">
-                                    <span> Delete </span>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
     <div class="container">
-        <form th:action="@{'/sec/holidays'}" th:method="POST" class="form-horizontal">
-            <fieldset class="form-inline">
-                <div>
-                    <div style="padding: 5px; display: block">
-                        <input name="date" placeholder="Holiday Date" class="form-control" autocomplete="off" style="width: 220px"/>
+        <div class="panel-body">
+            <form th:action="@{'/register'}" th:method="POST" class="form-horizontal">
+                <fieldset class="form-inline">
+                    <div style="padding: 5px; display: block" class="form-group">
+                        <input name="name" placeholder="Name" class="form-control" autocomplete="off"
+                               style="width: 220px"/>
                     </div>
-                    <div style="padding: 5px; display: block">
-                        <input name="comment" placeholder="Comment" class="form-control" autocomplete="off" style="width: 220px"/>
+                    <div style="padding: 5px; display: block" class="form-group">
+                        <input name="surname" placeholder="Surname" class="form-control" autocomplete="off"
+                               style="width: 220px"/>
                     </div>
-                </div>
-                <div style="padding: 5px">
-                    <button class="btn btn-info" type="Submit" style="width: 80px">
-                        <span> Add </span>
-                    </button>
-                </div>
-            </fieldset>
-        </form>
+                    <div style="padding: 5px; display: block" class="form-group">
+                        <input name="planet" placeholder="Planet" class="form-control" autocomplete="off"
+                               style="width: 220px"/>
+                    </div>
+                    <div style="padding: 5px; display: block" class="form-group">
+                        <input name="email" placeholder="Email" class="form-control" autocomplete="off"
+                               style="width: 220px"/>
+                    </div>
+                    <div style="padding: 5px; display: block" class="form-group">
+                        <input name="password" placeholder="Password" class="form-control" autocomplete="off"
+                               style="width: 220px"/>
+                    </div>
+                    <div style="padding: 5px" class="form-group">
+                        <button class="btn btn-info" type="Submit" style="width: 80px">
+                            <span> Add </span>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
     </div>
 </div>
 </body>

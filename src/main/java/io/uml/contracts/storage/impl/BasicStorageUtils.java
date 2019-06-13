@@ -11,7 +11,7 @@ import java.util.Collection;
  * @author GoodforGod
  * @since 16.02.2019
  */
-abstract class BasicStorageUtils<T extends BaseModel<ID>, ID extends Serializable> {
+abstract class BasicStorageUtils<T, ID extends Serializable> {
 
     boolean isValid(ID id) {
         return id != null;

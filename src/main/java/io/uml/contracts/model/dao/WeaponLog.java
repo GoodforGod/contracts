@@ -1,9 +1,8 @@
 package io.uml.contracts.model.dao;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * ! NO DESCRIPTION !
@@ -12,7 +11,7 @@ import javax.persistence.ManyToOne;
  * @since 09.06.2019
  */
 @Entity
-public class WeaponLog extends BaseUuidModifyModel {
+public class WeaponLog implements Serializable {
 
     public enum WeaponStatus {
         BAD,
@@ -20,21 +19,30 @@ public class WeaponLog extends BaseUuidModifyModel {
         GOOD
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mercenary_id")
-    private Mercenary responsible;
+    @Id
+    private String id;
+
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "mercenary_id")
+//    private Mercenary responsible;
     private String weapon;
     private WeaponStatus status;
 
-    public WeaponLog(Mercenary responsible, String weapon, WeaponStatus status) {
-        this.responsible = responsible;
-        this.weapon = weapon;
-        this.status = status;
+    public String getId() {
+        return id;
     }
 
-    public Mercenary getResponsible() {
-        return responsible;
+    public void setId(String id) {
+        this.id = id;
     }
+//
+//    public void setResponsible(Mercenary responsible) {
+//        this.responsible = responsible;
+//    }
+//
+//    public Mercenary getResponsible() {
+//        return responsible;
+//    }
 
     public String getWeapon() {
         return weapon;
@@ -42,5 +50,13 @@ public class WeaponLog extends BaseUuidModifyModel {
 
     public WeaponStatus getStatus() {
         return status;
+    }
+
+    public void setWeapon(String weapon) {
+        this.weapon = weapon;
+    }
+
+    public void setStatus(WeaponStatus status) {
+        this.status = status;
     }
 }
