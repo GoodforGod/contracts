@@ -1,8 +1,9 @@
 package io.uml.contracts.model.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -12,6 +13,7 @@ import java.util.UUID;
  * @since 09.06.2019
  */
 @Entity
+@Table(name = "ccc_comment")
 public class Comment implements Serializable {
 
     public enum Author {
@@ -21,9 +23,18 @@ public class Comment implements Serializable {
 
     @Id
     private String id;
+    @Column(name = "comment_value")
     private String value;
+    @Column(name = "comment_author")
     private String author;
+    @Column(name = "author_value")
     private Author type;
+    @Column(name = "comment_date")
+    private Timestamp date = Timestamp.valueOf(LocalDateTime.now());
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contract_id")
+    private Contract contract;
 
     public String getId() {
         return id;
@@ -55,5 +66,17 @@ public class Comment implements Serializable {
 
     public void setType(Author type) {
         this.type = type;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 }

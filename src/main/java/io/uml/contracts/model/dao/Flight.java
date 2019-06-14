@@ -11,15 +11,16 @@ import java.util.*;
  * @since 09.06.2019
  */
 @Entity
+@Table(name = "ccc_flight")
 public class Flight implements Serializable {
 
     @Id
     private String id;
-//
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "contract_uid")
-//    private Contract contract;
     private String route;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contract_uid")
+    private Contract contract;
 
     public String getId() {
         return id;
@@ -29,13 +30,13 @@ public class Flight implements Serializable {
         this.id = id;
     }
 
-//    public Contract getContract() {
-//        return contract;
-//    }
-//
-//    public void setContract(Contract contract) {
-//        this.contract = contract;
-//    }
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
 
     public String getRoute() {
         return route;

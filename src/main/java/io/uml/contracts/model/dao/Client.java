@@ -11,6 +11,7 @@ import java.util.UUID;
  * @since 09.06.2019
  */
 @Entity
+@Table(name = "ccc_client")
 public class Client implements Serializable {
 
     @Id
@@ -19,6 +20,7 @@ public class Client implements Serializable {
     private String surname;
     private String planet;
 
+    @Column(unique = true)
     private String email;
     private String password;
 

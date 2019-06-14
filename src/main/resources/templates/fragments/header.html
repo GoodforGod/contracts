@@ -5,9 +5,6 @@
     <meta charset="UTF-8" content="text/html"/>
     <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
     <link th:href="@{/css/header.css}" href="../../static/css/header.css" rel="stylesheet" type="text/css"/>
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
 </head>
 <body>
 <div th:fragment="header">
@@ -16,21 +13,23 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse">
                     <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span th:if="${role == 'CLIENT'}"  class="icon-bar"></span>
+                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
+                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
+                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
+                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a th:href="@{/sec/contracts}">Contracts</a></li>
-                    <li><a th:href="@{/sec/contracts}">Open Contract</a></li>
-                    <li><a th:href="@{/sec/music}">Music</a></li>
-                    <li><a th:href="@{/sec/flights}">Flights</a></li>
-                    <li><a th:href="@{/sec/weapons}">Weapons</a></li>
-                    <li><a th:href="@{/sec/cleaning}">Cleaning</a></li>
+                    <li th:if="${role == 'CLIENT'}"><a th:href="@{/sec/contracts/create}">Open Contract</a></li>
+                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/music}">Music</a></li>
+                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/flights}">Flights</a></li>
+                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/weapons}">Weapons</a></li>
+                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/cleaning}">Cleaning</a></li>
+                    <li><a th:href="@{/logout}">Log Out</a></li>
                 </ul>
             </div>
         </div>

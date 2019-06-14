@@ -6,11 +6,12 @@ package io.uml.contracts.util;
  * @author GoodforGod
  * @since 10.09.2017
  */
-public class WebControllerMapper {
+public class WebMapper {
     public static final String SECURED = "/sec";
 
     public static final String CONTRACTS = SECURED + "/contracts";
     public static final String CONTRACT_ADD = SECURED + "/contracts/create";
+    public static final String CONTRACT_VIEW = SECURED + "/contracts/view";
 
     public static final String LOGIN = "/login";
     public static final String REGISTER = "/register";

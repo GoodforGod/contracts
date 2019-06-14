@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>Config</title>
+
+    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <link th:href="@{/css/config.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/twicks.css}" rel="stylesheet" type="text/css"/>
+    <link rel='stylesheet' id='wp-block-library-css'
+          href='https://themefisher.com/wp-includes/css/dist/block-library/style.min.css?ver=eb575ba293c84cc02d24114562095a57'
+          type='text/css' media='all'/>
+    <link rel='stylesheet' id='edd-styles-css'
+          href='https://themefisher.com/wp-content/themes/themefisher-kanchenjunga/edd_templates/edd.css?ver=2.9.16'
+          type='text/css' media='all'/>
+    <link rel='stylesheet' id='bhittani_plugin_kksr-css'
+          href='https://themefisher.com/wp-content/plugins/kk-star-ratings/css.css?ver=2.6.4' type='text/css'
+          media='all'/>
+    <link rel='stylesheet' id='edd-free-downloads-css'
+          href='https://themefisher.com/wp-content/plugins/edd-free-downloads/assets/css/style.min.css?ver=2.3.7'
+          type='text/css' media='all'/>
+    <link rel='stylesheet' id='themefisher-style-css'
+          href='https://themefisher.com/wp-content/themes/themefisher-kanchenjunga/style.css?ver=eb575ba293c84cc02d24114562095a57'
+          type='text/css' media='all'/>
+    <link rel='stylesheet' id='themefisher-bootstrap-css'
+          href='https://themefisher.com/wp-content/themes/themefisher-kanchenjunga/assets/bootstrap/css/bootstrap.min.css?ver=eb575ba293c84cc02d24114562095a57'
+          type='text/css' media='all'/>
+    <link rel='stylesheet' id='themefisher-fonts-css'
+          href='https://themefisher.com/wp-content/themes/themefisher-kanchenjunga/assets/fonts/themify-icons.css?ver=eb575ba293c84cc02d24114562095a57'
+          type='text/css' media='all'/>
+    <link rel='stylesheet' id='themefisher-main.css-css'
+          href='https://themefisher.com/wp-content/themes/themefisher-kanchenjunga/assets/css/style.css?ver=eb575ba293c84cc02d24114562095a57'
+          type='text/css' media='all'/>
+
+
+    <script th:day="scroll">
+        $(window).on("load resize ", function () {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({'padding-right': scrollWidth});
+        }).resize();
+    </script>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"></div>
+
+    <section>
+        <div class="product-sidebar card mt-4">
+            <div class="card-body" th:if="${contract != null}" style="color: #cccccc">
+                <h1 class="display-3" th:text="${contract.title}"></h1>
+                <h3 class="display-5" th:text="${contract.phase}"></h3>
+                <h4 th:text="${contract.planet}"></h4>
+                <h6 th:text="${contract.type}"></h6>
+                <ul class="product-meta list-inline mt-3">
+                    <li class="d-flex align-items-center justify-content-between">
+                        <span th:text="${contract.requirements}"></span>
+                    </li>
+                    <li class="d-flex align-items-center justify-content-between">
+                        <span th:text="${contract.comment}"></span>
+                    </li>
+                </ul>
+                <div>
+                    <div th:if="${role == 'ADMIN'}">
+                        <i>
+                            <form th:action="@{'/sec/contracts/approve' + ${contract.id}}" th:method="GET">
+                                <button class="btn btn btn-info" name="id" th:id="${contract.id}" type="Submit">
+                                    <span> Approve </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                    <div>
+                        <form th:action="@{'/sec/contracts/' + ${contract.id}}" th:method="DELETE">
+                            <button class="btn btn btn-info" name="key" th:accessLevel="${contract.id}"
+                                    type="Submit">
+                                <span> Revoke </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div th:if="${!comments.isEmpty()}">
+                <div class="tbl-header">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <colgroup>
+                            <col style="width:40%"/>
+                            <col style="width:40%"/>
+                            <col style="width:20%"/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Author</th>
+                            <th>Comment</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div th:if="${!comments.isEmpty()}" class="tbl-content">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <colgroup>
+                            <col style="width:40%"/>
+                            <col style="width:40%"/>
+                            <col style="width:20%"/>
+                        </colgroup>
+                        <tbody>
+                        <tr th:each="comment : ${comments}">
+                            <td th:text="${comment.author}"></td>
+                            <td th:text="${comment.value}"></td>
+                            <td th:text="${comment.date}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

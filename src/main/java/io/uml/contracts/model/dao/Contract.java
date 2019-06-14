@@ -2,6 +2,8 @@ package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -11,6 +13,7 @@ import java.util.UUID;
  * @since 09.06.2019
  */
 @Entity
+@Table(name = "ccc_contract")
 public class Contract implements Serializable {
 
     public enum ContractType {
@@ -21,27 +24,30 @@ public class Contract implements Serializable {
     }
 
     public enum ContractPhase {
-        REQUIREMENTS,
-        REWARD,
-        DONE
+        AWAITS,
+        APPROVED
     }
 
     @Id
     private String id;
 
-//    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
-//    private Flight flight;
+    private String title;
+    @Column(name = "contract_phase")
+    private ContractPhase phase = ContractPhase.AWAITS;
+    private String planet;
+    private String reward;
+    private String requirements;
+    @Column(name = "contract_comment")
+    private String comment;
+    @Column(name = "contract_type")
+    private ContractType type;
+
+    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
+    private Flight flight;
     @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
     private Client client;
-
-    private String title;
-    private ContractPhase phase = ContractPhase.REQUIREMENTS;
-    private String planet;
-    private long reward = -1;
-    private String requirements;
-    private String comment;
-    private boolean isApproved = false;
-    private ContractType type;
+    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
+    private Set<Comment> comments = new HashSet<>();
 
     public String getId() {
         return id;
@@ -49,6 +55,14 @@ public class Contract implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
     }
 
     public Client getClient() {
@@ -71,27 +85,31 @@ public class Contract implements Serializable {
         return title;
     }
 
-//    public Flight getFlight() {
-//        return flight;
-//    }
-//
-//    public void setFlight(Flight flight) {
-//        this.flight = flight;
-//    }
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
+    }
 
     public ContractPhase getPhase() {
         return phase;
+    }
+
+    public void approve() {
+        this.phase = ContractPhase.APPROVED;
     }
 
     public String getPlanet() {
         return planet;
     }
 
-    public long getReward() {
+    public String getReward() {
         return reward;
     }
 
-    public void setReward(long reward) {
+    public void setReward(String reward) {
         this.reward = reward;
     }
 
@@ -101,10 +119,6 @@ public class Contract implements Serializable {
 
     public String getComment() {
         return comment;
-    }
-
-    public void setPhase(ContractPhase phase) {
-        this.phase = phase;
     }
 
     public void setPlanet(String planet) {
@@ -119,19 +133,7 @@ public class Contract implements Serializable {
         this.comment = comment;
     }
 
-    public boolean isApproved() {
-        return isApproved;
-    }
-
-    public void approve() {
-        this.isApproved = true;
-    }
-
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public void setApproved(boolean approved) {
-        isApproved = approved;
     }
 }
