@@ -60,19 +60,19 @@
                         <span th:text="${contract.comment}"></span>
                     </li>
                 </ul>
-                <div>
-                    <div th:if="${role == 'ADMIN'}">
+                <div class="btn-toolbar">
+                    <div class="btn-group mr-2" th:if="${role == 'ADMIN' && contract.phase.name() == 'AWAITS'}">
                         <i>
-                            <form th:action="@{'/sec/contracts/approve' + ${contract.id}}" th:method="GET">
+                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
                                 <button class="btn btn btn-info" name="id" th:id="${contract.id}" type="Submit">
                                     <span> Approve </span>
                                 </button>
                             </form>
                         </i>
                     </div>
-                    <div>
+                    <div class="btn-group mr-2">
                         <form th:action="@{'/sec/contracts/' + ${contract.id}}" th:method="DELETE">
-                            <button class="btn btn btn-info" name="key" th:accessLevel="${contract.id}"
+                            <button class="btn btn btn-info" name="id" th:id="${contract.id}"
                                     type="Submit">
                                 <span> Revoke </span>
                             </button>

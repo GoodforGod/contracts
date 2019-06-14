@@ -4,8 +4,10 @@ import io.uml.contracts.controller.error.NotAuthorizedException;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
 import io.uml.contracts.model.dao.Client;
 import io.uml.contracts.model.dao.Contract;
+import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
+import io.uml.contracts.storage.impl.MercenaryStorage;
 import io.uml.contracts.util.WebMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -34,17 +36,36 @@ public class ContractWebController {
     @Autowired
     private ClientStorage clientStorage;
 
+    @Autowired
+    private MercenaryStorage mercenaryStorage;
+
     @GetMapping("/")
     public String home() {
         return WebMapper.redirect(WebMapper.CONTRACTS);
     }
 
+    private Contract verifyContract(String contractId) {
+        Contract contract = contractStorage.find(contractId).orElseThrow(ResourceNotFoundException::new);
+        String role = getRoleFromContext();
+        try {
+            if(!"ADMIN".equals(role)) {
+                final Client client = getClientFromContext();
+                if (!contract.getClient().getId().equals(client.getId())) {
+                    throw new NotAuthorizedException();
+                }
+            }
+        } catch (NotAuthorizedException e) {
+            e.printStackTrace();
+        }
+
+        return contract;
+    }
+
     @GetMapping(WebMapper.CONTRACTS + "/{id}")
     public ModelAndView viewContract(@PathVariable("id") String id) {
         final ModelAndView view = new ModelAndView(CONTRACT_CLIENT);
-        final Client client = getClientFromContext();
+        Contract contract = verifyContract(id);
 
-        Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);
         view.addObject("contract", contract);
         view.addObject("comments", contract.getComments());
         view.addObject("role", getRoleFromContext());
@@ -53,22 +74,17 @@ public class ContractWebController {
 
     @DeleteMapping(WebMapper.CONTRACTS + "/{id}")
     public String deleteContract(@PathVariable("id") String id) {
-        final Client client = getClientFromContext();
-        Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);
-        if(!contract.getClient().getId().equals(client.getId())) {
-            throw new NotAuthorizedException();
-        }
-
+        Contract contract = verifyContract(id);
+        contract.setClient(null);
         contractStorage.delete(contract.getId());
 
         return WebMapper.redirect(WebMapper.CONTRACTS);
     }
 
     @GetMapping(WebMapper.CONTRACTS + "/approve/{id}")
-    public String approveContract(@PathVariable("id") String id) {
-        final Client client = getClientFromContext();
+    public ModelAndView approveContract(@PathVariable("id") String id) {
         String role = getRoleFromContext();
-        if(!"ADMIN".equals(role)) {
+        if (!"ADMIN".equals(role)) {
             throw new NotAuthorizedException();
         }
 
@@ -76,18 +92,27 @@ public class ContractWebController {
         contract.approve();
         contractStorage.save(contract);
 
-        return WebMapper.redirect(WebMapper.CONTRACTS);
+        return viewContract(id);
     }
 
     @GetMapping(WebMapper.CONTRACTS)
     public ModelAndView getContracts() {
         final ModelAndView view = new ModelAndView(CONTRACTS);
-        final Client client = getClientFromContext();
 
-        List<Contract> contracts = contractStorage.findByClient(client.getId());
+        List<Contract> contracts = getContractsByRole();
         view.addObject("contracts", contracts);
         view.addObject("role", getRoleFromContext());
         return view;
+    }
+
+    private List<Contract> getContractsByRole() {
+        try {
+            final Client client = getClientFromContext();
+            return contractStorage.findByClient(client.getId());
+        } catch (Exception e) {
+            final Mercenary mercenary = getMercenaryFromContext();
+            return contractStorage.findAll();
+        }
     }
 
     @GetMapping(WebMapper.CONTRACT_ADD)
@@ -115,7 +140,8 @@ public class ContractWebController {
         contract.setComment(comment);
         contract.setId(UUID.randomUUID().toString());
         client.setContract(contract);
-        clientStorage.save(client);
+        contract.setClient(client);
+        contractStorage.save(contract);
 
         return WebMapper.redirect(WebMapper.CONTRACTS);
     }
@@ -123,6 +149,20 @@ public class ContractWebController {
     private Client getClientFromContext() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return clientStorage.findByEmail(authentication.getName()).orElseThrow(NotAuthorizedException::new);
+    }
+
+    private Mercenary getMercenaryFromContext() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return mercenaryStorage.findByEmail(authentication.getName()).orElseThrow(NotAuthorizedException::new);
+    }
+
+    private String getIdFromContext() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return clientStorage.findByEmail(authentication.getName())
+                .map(Client::getId)
+                .orElseGet(() -> mercenaryStorage.findByEmail(authentication.getName())
+                        .orElseThrow(NotAuthorizedException::new)
+                        .getId());
     }
 
     private String getRoleFromContext() {

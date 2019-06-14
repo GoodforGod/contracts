@@ -24,8 +24,7 @@ public class Client implements Serializable {
     private String email;
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "client_uid")
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
     private Contract contract;
 
     public String getId() {

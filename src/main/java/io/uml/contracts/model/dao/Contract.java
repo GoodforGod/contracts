@@ -44,7 +44,8 @@ public class Contract implements Serializable {
 
     @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
     private Flight flight;
-    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_uid")
     private Client client;
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
