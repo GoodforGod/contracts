@@ -1,6 +1,5 @@
 package io.uml.contracts.storage.impl;
 
-import io.uml.contracts.model.dao.Client;
 import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.repository.MercenaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,12 @@ public class MercenaryStorage extends BasicStorage<Mercenary, String> {
     public MercenaryStorage(MercenaryRepository repository) {
         super(repository);
         this.mercenaryRepository = repository;
-        findByEmail(clientUid).orElseGet(() -> {
+        findByEmail(CLIENT_UID).orElseGet(() -> {
             final Mercenary mercenary = new Mercenary();
             mercenary.setName("Start");
             mercenary.setSurname("Lord");
-            mercenary.setEmail(uid);
-            mercenary.setPassword(password);
+            mercenary.setEmail(ADMIN_ID);
+            mercenary.setPassword(ADMIN_PASSWORD);
             mercenary.setId(UUID.randomUUID().toString());
             return save(mercenary).orElse(null);
         });

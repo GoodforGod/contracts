@@ -1,13 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" content="text/html"/>
+    <div th:insert="fragments/header :: header-meta"></div>
     <title>Login</title>
-
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
-
     <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -26,6 +21,9 @@
                     <input type="submit" id="login-submit" class="btn btn-login" value="Log In" style="width: 200px"/>
                 </div>
             </form>
+        </div>
+        <div th:if="${(param.error != null) and (param.error[0] == 'true')}" class="alert alert-danger">
+            Invalid username and password.
         </div>
     </div>
 </div>

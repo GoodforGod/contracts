@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" content="text/html"/>
-    <title>Config</title>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Contract View</title>
 
-    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
-    <link th:href="@{/css/config.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/css/twicks.css}" rel="stylesheet" type="text/css"/>
     <link rel='stylesheet' id='wp-block-library-css'
           href='https://themefisher.com/wp-includes/css/dist/block-library/style.min.css?ver=eb575ba293c84cc02d24114562095a57'
           type='text/css' media='all'/>
@@ -32,14 +28,6 @@
     <link rel='stylesheet' id='themefisher-main.css-css'
           href='https://themefisher.com/wp-content/themes/themefisher-kanchenjunga/assets/css/style.css?ver=eb575ba293c84cc02d24114562095a57'
           type='text/css' media='all'/>
-
-
-    <script th:day="scroll">
-        $(window).on("load resize ", function () {
-            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-            $('.tbl-header').css({'padding-right': scrollWidth});
-        }).resize();
-    </script>
 </head>
 <body>
 <div>

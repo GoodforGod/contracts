@@ -8,8 +8,8 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 import java.util.UUID;
 
-import static io.uml.contracts.config.SecurityConfig.clientPassword;
-import static io.uml.contracts.config.SecurityConfig.clientUid;
+import static io.uml.contracts.config.SecurityConfig.CLIENT_PASSWORD;
+import static io.uml.contracts.config.SecurityConfig.CLIENT_UID;
 
 /**
  * ! NO DESCRIPTION !
@@ -26,13 +26,13 @@ public class ClientStorage extends BasicStorage<Client, String> {
     public ClientStorage(ClientRepository repository) {
         super(repository);
         this.clientRepository = repository;
-        findByEmail(clientUid).orElseGet(() -> {
+        findByEmail(CLIENT_UID).orElseGet(() -> {
             final Client client = new Client();
             client.setPlanet("Earth");
             client.setName("Tommy");
             client.setSurname("Lee");
-            client.setEmail(clientUid);
-            client.setPassword(clientPassword);
+            client.setEmail(CLIENT_UID);
+            client.setPassword(CLIENT_PASSWORD);
             client.setId(UUID.randomUUID().toString());
             return save(client).orElse(null);
         });

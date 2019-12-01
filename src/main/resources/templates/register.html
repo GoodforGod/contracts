@@ -1,20 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" content="text/html"/>
-    <title>Feedback</title>
-
-    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
-    <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/css/config.css}" rel="stylesheet" type="text/css"/>
-    <link th:href="@{/css/twicks.css}" rel="stylesheet" type="text/css"/>
-
-    <script th:day="scroll">
-        $(window).on("load resize ", function () {
-            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
-            $('.tbl-header').css({'padding-right': scrollWidth});
-        }).resize();
-    </script>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Register</title>
 </head>
 <body>
 <div>

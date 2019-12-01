@@ -1,10 +1,29 @@
 spring:
   profiles:
-    active: "local"
+    active: "dev"
+    # DEV clean start and schema creation
+    # PROD to remember state between runs (only validate DB)
+
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
     deserialization:
       fail-on-unknown-properties: false
+
+  jpa:
+    database: oracle
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+  datasource:
+    url: ${ORA_URL}
+    username: ${ORA_USER}
+    password: ${ORA_PASS}
+    driver-class-name: oracle.jdbc.OracleDriver
+    platform: org.hibernate.dialect.Oracle10gDialect
+    hikari:
+      login-timeout: 15000
+      connection-timeout: 15000
+      initialization-fail-timeout: 15000
 
 server:
   port: 8080
@@ -16,44 +35,16 @@ logging:
 ---
 
 spring:
-  profiles: local
+  profiles: dev
   jpa:
-    database: oracle
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-  datasource:
-    url: ${ORA_URL}
-    username: ${ORA_USER}
-    password: ${ORA_PASS}
-    driver-class-name: oracle.jdbc.OracleDriver
-    platform: org.hibernate.dialect.Oracle10gDialect
-    hikari:
-      login-timeout: 15000
-      connection-timeout: 15000
-      initialization-fail-timeout: 15000
-
 ---
 
 spring:
   profiles: prod
   jpa:
-    database: oracle
     show-sql: false
     hibernate:
-      ddl-auto: update
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-  datasource:
-    url: ${ORA_URL}
-    username: ${ORA_USER}
-    password: ${ORA_PASS}
-    driver-class-name: oracle.jdbc.OracleDriver
-    platform: org.hibernate.dialect.Oracle10gDialect
-    hikari:
-      login-timeout: 15000
-      connection-timeout: 15000
-      initialization-fail-timeout: 15000
-
+      ddl-auto: validate

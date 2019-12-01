@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:fragment="header-meta">
     <meta charset="UTF-8" content="text/html"/>
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
     <link th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
-    <link th:href="@{/css/header.css}" href="../../static/css/header.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/header.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/twicks.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/config.css}" rel="stylesheet" type="text/css"/>
+
+    <script>
+        function logout() {
+            var form = document.createElement("form");
+            form.action = "/logout";
+            form.method = "POST";
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+    <script th:day="scroll">
+        $(window).on("load resize ", function () {
+            var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+            $('.tbl-header').css({'padding-right': scrollWidth});
+        }).resize();
+    </script>
+
 </head>
 <body>
 <div th:fragment="header">
@@ -13,7 +34,7 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse">
                     <span class="icon-bar"></span>
-                    <span th:if="${role == 'CLIENT'}"  class="icon-bar"></span>
+                    <span th:if="${role == 'CLIENT'}" class="icon-bar"></span>
                     <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
                     <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
                     <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
@@ -29,7 +50,12 @@
                     <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/flights}">Flights</a></li>
                     <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/weapons}">Weapons</a></li>
                     <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/cleaning}">Cleaning</a></li>
-                    <li><a th:href="@{/logout}">Log Out</a></li>
+                    <li>
+                        <a href='#' onclick="logout()">Log Out</a>
+                        <!--                        <form method="POST" th:action="@{/logout}">-->
+                        <!--                            <button type="submit">Log Out</button>-->
+                        <!--                        </form>-->
+                    </li>
                 </ul>
             </div>
         </div>

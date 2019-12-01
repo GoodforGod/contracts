@@ -1,6 +1,7 @@
 package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +13,7 @@ import java.util.Set;
  * @since 09.06.2019
  */
 @Entity
-@Table(name = "ccc_mercenary")
+@Table(name = "ccc_mercenary", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Mercenary implements Serializable {
 
     public enum MercenaryRoles {
@@ -27,6 +28,7 @@ public class Mercenary implements Serializable {
 
     private String name;
     private String surname;
+    @NotNull
     private String email;
     private String password;
     private String clan = "Galaxy Guardians";

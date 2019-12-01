@@ -20,22 +20,25 @@ import static io.uml.contracts.util.WebMapper.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String ADMIN = "ADMIN";
-    private static final String CLIENT = "CLIENT";
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ROLE_CLIENT = "CLIENT";
 
-    public static String uid = "admin";
-    public static String password = "1234";
+    public static final String ADMIN_ID = "admin";
+    public static final String ADMIN_PASSWORD = "1234";
 
-    public static String clientUid = "client";
-    public static String clientPassword = "1234";
+    public static final String CLIENT_UID = "client";
+    public static final String CLIENT_PASSWORD = "1234";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(LOGIN, REGISTER,
                         "/static/css/**").permitAll()
-                .antMatchers(SECURED + "/**", SWAGGER_DOC, SWAGGER_UI).hasAnyRole(ADMIN, CLIENT)
+                .antMatchers(SECURED + "/**", SWAGGER_DOC, SWAGGER_UI).hasAnyRole(ROLE_ADMIN, ROLE_CLIENT)
                 .anyRequest().authenticated()
+                .and()
+                .csrf()
+                .ignoringAntMatchers("/logout")
                 .and()
                 .formLogin()
                 .failureUrl(LOGIN + "?error=true")
@@ -52,13 +55,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser(uid).password("{noop}" + password).roles(ADMIN)
+                .withUser(ADMIN_ID).password("{noop}" + ADMIN_PASSWORD).roles(ROLE_ADMIN)
                 .and()
-                .withUser(clientUid).password("{noop}" + clientPassword).roles(CLIENT);
+                .withUser(CLIENT_UID).password("{noop}" + CLIENT_PASSWORD).roles(ROLE_CLIENT);
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers( "/static/**", "/css/**", "/webjars/bootstrap/**");
+        web.ignoring().antMatchers("/static/**", "/css/**", "/webjars/bootstrap/**");
     }
 }
