@@ -36,12 +36,28 @@ public class Comment implements Serializable {
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tactic_id")
+    private Tactic tactic;
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    public Tactic getTactic() {
+        return tactic;
+    }
+
+    public void setTactic(Tactic tactic) {
+        this.tactic = tactic;
     }
 
     public String getValue() {

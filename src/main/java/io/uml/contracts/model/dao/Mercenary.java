@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,9 +18,9 @@ import java.util.Set;
 public class Mercenary implements Serializable {
 
     public enum MercenaryRoles {
-        WARRIOR,
-        WEAPONER,
         LEADER,
+        WARRIOR,
+        GUNSMITH,
         COMBAT
     }
 
@@ -34,9 +35,16 @@ public class Mercenary implements Serializable {
     private String clan = "Galaxy Guardians";
     private MercenaryRoles role;
 
+    @ManyToMany
+    @JoinTable(
+            name = "ccc_approved_tactics",
+            joinColumns = @JoinColumn(name = "tactic_id"),
+            inverseJoinColumns = @JoinColumn(name = "mercenary_id"))
+    private List<Tactic> approvedTactics;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "flight_participants",
+            name = "ccc_flight_participants",
             joinColumns = {@JoinColumn(name = "mercenary_id")},
             inverseJoinColumns = {@JoinColumn(name = "flight_id")}
     )
@@ -47,6 +55,9 @@ public class Mercenary implements Serializable {
 
     @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
     private Set<WeaponLog> weaponLogs = new HashSet<>();
+
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private Set<Playlist> playlists = new HashSet<>();
 
     public String getId() {
         return id;
@@ -62,6 +73,22 @@ public class Mercenary implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(Set<Playlist> playlists) {
+        this.playlists = playlists;
+    }
+
+    public List<Tactic> getApprovedTactics() {
+        return approvedTactics;
+    }
+
+    public void setApprovedTactics(List<Tactic> approvedTactics) {
+        this.approvedTactics = approvedTactics;
     }
 
     public String getPassword() {
