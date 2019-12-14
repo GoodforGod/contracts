@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Weapon</title>
+    <div th:insert="fragments/table :: table-meta"></div>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"> </div>
+
+    <div class="container">
+        <form th:action="@{'/sec/weapon/create'}" th:method="POST">
+            <fieldset class="form-inline">
+                <label>Type:</label>
+                <select name="type" class="form-control" style="width: 280px">
+                    <option th:each="type : ${T(io.uml.contracts.model.dao.WeaponLog.WeaponType.values()}"
+                            th:contractType ="${type}"
+                            th:text="${type}">
+                    </option>
+                </select>
+                <div>
+                    <div style="padding: 5px; display: block">
+                        <input name="name" placeholder="Name" class="form-control" autocomplete="off" style="width: 300px"/>
+                    </div>
+                    <div style="padding: 5px">
+                        <textarea name="description" placeholder="Description" class="form-control" rows="4" cols="60" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div style="padding: 5px">
+                    <button class="btn btn-info" type="Submit" style="width: 100px">
+                        <span> Add </span>
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>

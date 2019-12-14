@@ -20,6 +20,17 @@ public class WeaponLog implements Serializable {
         GOOD
     }
 
+    public enum WeaponType {
+        BLASTER,
+        FIRE_ARM,
+        MACHINE_GUN,
+        RIFLE,
+        DAGGER,
+        SWORD,
+        MACE,
+        UNIQUE
+    }
+
     @Id
     private String id;
     private String weapon;

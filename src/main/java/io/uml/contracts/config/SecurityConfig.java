@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import static io.uml.contracts.util.WebMapper.*;
+import static io.uml.contracts.config.WebMapper.*;
 
 /**
  * "default description"
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .failureUrl(LOGIN + "?error=true")
-                .defaultSuccessUrl(CONTRACTS)
+                .defaultSuccessUrl(CONTRACT_TABLE)
                 .loginPage(LOGIN)
                 .usernameParameter("uid")
                 .passwordParameter("password")

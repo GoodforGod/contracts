@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Cleaning</title>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"></div>
+
+    <section>
+        <div>
+            <a th:href="@{'/sec/clean/create'}">Add Cleaning Log</a>
+        </div>
+
+        <div>
+            <div th:if="${!cleans.isEmpty()}">
+                <div class="tbl-header">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <colgroup>
+                            <col style="width:70%"/>
+                            <col style="width:30%"/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>Comment</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="tbl-content">
+                    <table cellpadding="0" cellspacing="0" border="0">
+                        <colgroup>
+                            <col style="width:70%"/>
+                            <col style="width:30%"/>
+                        </colgroup>
+                        <tbody>
+                        <tr th:each="clean: ${cleans}">
+                            <td th:text="${clean.comment}"></td>
+                            <td th:text="${clean.date}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

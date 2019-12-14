@@ -8,7 +8,7 @@ import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
-import io.uml.contracts.util.WebMapper;
+import io.uml.contracts.config.WebMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.UUID;
 
-import static io.uml.contracts.util.TemplateMapper.*;
+import static io.uml.contracts.config.TemplateMapper.*;
 
 /**
  * ! NO DESCRIPTION !
@@ -28,20 +28,21 @@ import static io.uml.contracts.util.TemplateMapper.*;
  * @since 13.06.2019
  */
 @Controller
-public class ContractWebController {
+public class ContractWebController extends BaseWebController {
+
+    private final ContractStorage contractStorage;
 
     @Autowired
-    private ContractStorage contractStorage;
-
-    @Autowired
-    private ClientStorage clientStorage;
-
-    @Autowired
-    private MercenaryStorage mercenaryStorage;
+    protected ContractWebController(ClientStorage clientStorage,
+                                    MercenaryStorage mercenaryStorage,
+                                    ContractStorage contractStorage) {
+        super(clientStorage, mercenaryStorage);
+        this.contractStorage = contractStorage;
+    }
 
     @GetMapping("/")
     public String home() {
-        return WebMapper.redirect(WebMapper.CONTRACTS);
+        return WebMapper.redirect(WebMapper.CONTRACT_TABLE);
     }
 
     private Contract verifyContract(String contractId) {
@@ -61,10 +62,10 @@ public class ContractWebController {
         return contract;
     }
 
-    @GetMapping(WebMapper.CONTRACTS + "/{id}")
+    @GetMapping(WebMapper.CONTRACT_TABLE + "/{id}")
     public ModelAndView viewContract(@PathVariable("id") String id) {
-        final ModelAndView view = new ModelAndView(CONTRACT_CLIENT);
-        Contract contract = verifyContract(id);
+        final ModelAndView view = new ModelAndView(PAGE_CONTRACT_VIEW);
+        final Contract contract = verifyContract(id);
 
         view.addObject("contract", contract);
         view.addObject("comments", contract.getComments());
@@ -72,16 +73,16 @@ public class ContractWebController {
         return view;
     }
 
-    @DeleteMapping(WebMapper.CONTRACTS + "/{id}")
+    @DeleteMapping(WebMapper.CONTRACT_TABLE + "/{id}")
     public String deleteContract(@PathVariable("id") String id) {
-        Contract contract = verifyContract(id);
+        final Contract contract = verifyContract(id);
         contract.setClient(null);
         contractStorage.delete(contract.getId());
 
-        return WebMapper.redirect(WebMapper.CONTRACTS);
+        return WebMapper.redirect(WebMapper.CONTRACT_TABLE);
     }
 
-    @GetMapping(WebMapper.CONTRACTS + "/approve/{id}")
+    @GetMapping(WebMapper.CONTRACT_TABLE + "/approve/{id}")
     public ModelAndView approveContract(@PathVariable("id") String id) {
         String role = getRoleFromContext();
         if (!"ADMIN".equals(role)) {
@@ -95,9 +96,9 @@ public class ContractWebController {
         return viewContract(id);
     }
 
-    @GetMapping(WebMapper.CONTRACTS)
+    @GetMapping(WebMapper.CONTRACT_TABLE)
     public ModelAndView getContracts() {
-        final ModelAndView view = new ModelAndView(CONTRACTS);
+        final ModelAndView view = new ModelAndView(PAGE_CONTRACT_TABLE);
 
         List<Contract> contracts = getContractsByRole();
         view.addObject("contracts", contracts);
@@ -117,7 +118,7 @@ public class ContractWebController {
 
     @GetMapping(WebMapper.CONTRACT_ADD)
     public ModelAndView getContractAdd() {
-        return new ModelAndView(CONTRACT_ADD);
+        return new ModelAndView(PAGE_CONTRACT_ADD);
     }
 
     @PostMapping(WebMapper.CONTRACT_ADD)
@@ -130,8 +131,7 @@ public class ContractWebController {
             @RequestParam("comment") String comment
     ) {
         final Client client = getClientFromContext();
-
-        Contract contract = new Contract();
+        final Contract contract = new Contract();
         contract.setType(type);
         contract.setRequirements(description);
         contract.setPlanet(planet);
@@ -143,30 +143,7 @@ public class ContractWebController {
         contract.setClient(client);
         contractStorage.save(contract);
 
-        return WebMapper.redirect(WebMapper.CONTRACTS);
+        return WebMapper.redirect(WebMapper.CONTRACT_TABLE);
     }
 
-    private Client getClientFromContext() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return clientStorage.findByEmail(authentication.getName()).orElseThrow(NotAuthorizedException::new);
-    }
-
-    private Mercenary getMercenaryFromContext() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return mercenaryStorage.findByEmail(authentication.getName()).orElseThrow(NotAuthorizedException::new);
-    }
-
-    private String getIdFromContext() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return clientStorage.findByEmail(authentication.getName())
-                .map(Client::getId)
-                .orElseGet(() -> mercenaryStorage.findByEmail(authentication.getName())
-                        .orElseThrow(NotAuthorizedException::new)
-                        .getId());
-    }
-
-    private String getRoleFromContext() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getAuthorities().iterator().next().getAuthority().replace("ROLE_", "").toUpperCase();
-    }
 }

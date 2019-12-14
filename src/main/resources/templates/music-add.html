@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Music</title>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"> </div>
+
+    <div class="container">
+        <form th:action="@{'/sec/contracts/create'}" th:method="POST">
+            <fieldset class="form-inline">
+                <label>Type:</label>
+                <select name="type" class="form-control" style="width: 280px">
+                    <option th:each="type : ${T(io.uml.contracts.model.dao.Contract.ContractType).values()}"
+                            th:contractType ="${type}"
+                            th:text="${type}">
+                    </option>
+                </select>
+                <div>
+                    <div style="padding: 5px; display: block">
+                        <input name="title" placeholder="Title" class="form-control" autocomplete="off"
+                               style="width: 300px"/>
+                    </div>
+                    <div style="padding: 5px; display: block">
+                        <input name="planet" placeholder="Target Planet" class="form-control" autocomplete="off"
+                               style="width: 300px"/>
+                    </div>
+                    <div style="padding: 5px; display: block">
+                        <input name="reward" placeholder="Enter mission reward..." class="form-control" autocomplete="off"
+                               style="width: 300px"/>
+                    </div>
+                    <div style="padding: 5px">
+                        <textarea name="comment" placeholder="Enter mission comment" class="form-control" rows="4"
+                                  cols="60" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div>
+                    <div style="padding: 5px">
+                        <textarea name="description" placeholder="Mission description" class="form-control" rows="4"
+                                  cols="60" autocomplete="off"></textarea>
+                    </div>
+                </div>
+                <div style="padding: 5px">
+                    <button class="btn btn-info" type="Submit" style="width: 100px">
+                        <span> Create </span>
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+</body>
+</html>
