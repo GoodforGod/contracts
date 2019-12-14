@@ -1,6 +1,5 @@
 package io.uml.contracts.storage.impl;
 
-import io.uml.contracts.model.dao.BaseModel;
 import io.uml.contracts.storage.IStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

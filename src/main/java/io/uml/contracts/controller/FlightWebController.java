@@ -2,7 +2,6 @@ package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
-import io.uml.contracts.model.dao.Client;
 import io.uml.contracts.model.dao.Contract;
 import io.uml.contracts.model.dao.Flight;
 import io.uml.contracts.storage.impl.ClientStorage;
@@ -16,10 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.UUID;
-
-import static io.uml.contracts.config.TemplateMapper.*;
+import static io.uml.contracts.config.TemplateMapper.PAGE_FLIGHT_ADD;
+import static io.uml.contracts.config.TemplateMapper.PAGE_FLIGHT_VIEW;
 
 /**
  * ! NO DESCRIPTION !

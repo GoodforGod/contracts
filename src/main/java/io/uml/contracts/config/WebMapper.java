@@ -19,8 +19,8 @@ public class WebMapper {
     public static final String MUSIC_ADD = SECURED + "/music/create";
     public static final String MUSIC_VIEW = SECURED + "/music/view";
 
-    public static final String CLEAN_TABLE = SECURED + "/cleaning";
-    public static final String CLEAN_ADD = SECURED + "/cleaning/create";
+    public static final String CLEAN_TABLE = SECURED + "/cleans";
+    public static final String CLEAN_ADD = SECURED + "/cleans/create";
 
     public static final String FLIGHT_ADD = SECURED + "/flights";
     public static final String FLIGHT_VIEW = SECURED + "/flights/create";

@@ -9,14 +9,14 @@
     <div th:replace="fragments/header :: header"> </div>
 
     <div class="container">
-        <form th:action="@{'/sec/clean/create'}" th:method="POST">
+        <form th:action="@{'/sec/cleans/create'}" th:method="POST">
             <fieldset class="form-inline">
                 <div>
                     <div style="padding: 5px; display: block">
                         <input name="date" placeholder="Date" type="date" class="form-control" autocomplete="off" style="width: 300px"/>
                     </div>
                     <div style="padding: 5px">
-                        <textarea name="comment" placeholder="Enter cleaning comment" class="form-control" rows="4" cols="60" autocomplete="off"></textarea>
+                        <textarea name="description" placeholder="Enter description" class="form-control" rows="4" cols="60" autocomplete="off"></textarea>
                     </div>
                 </div>
                 <div style="padding: 5px">
@@ -26,6 +26,9 @@
                 </div>
             </fieldset>
         </form>
+    </div>
+    <div th:if="${(param.error != null) and (param.error[0] == 'true')}" class="alert alert-danger">
+        Invalid cleaning date entered!
     </div>
 </div>
 </body>

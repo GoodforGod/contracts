@@ -9,22 +9,32 @@
     <div th:replace="fragments/header :: header"></div>
 
     <section>
-        <div>
-            <a th:href="@{'/sec/clean/create'}">Add Cleaning Log</a>
+        <div class="container">
+            <form th:action="@{'/sec/cleans/create'}">
+                <fieldset class="form-inline" style="width: 100px">
+                    <button class="btn btn-primary center-block" type="submit">
+                        <span> Add Cleaning Log </span>
+                    </button>
+                </fieldset>
+            </form>
         </div>
+
+        <div></div>
 
         <div>
             <div th:if="${!cleans.isEmpty()}">
                 <div class="tbl-header">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <colgroup>
-                            <col style="width:70%"/>
-                            <col style="width:30%"/>
+                            <col style="width:60%"/>
+                            <col style="width:20%"/>
+                            <col style="width:20%"/>
                         </colgroup>
                         <thead>
                         <tr>
                             <th>Comment</th>
                             <th>Date</th>
+                            <th></th>
                         </tr>
                         </thead>
                     </table>
@@ -32,13 +42,25 @@
                 <div class="tbl-content">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <colgroup>
-                            <col style="width:70%"/>
-                            <col style="width:30%"/>
+                            <col style="width:60%"/>
+                            <col style="width:20%"/>
+                            <col style="width:20%"/>
                         </colgroup>
                         <tbody>
                         <tr th:each="clean: ${cleans}">
-                            <td th:text="${clean.comment}"></td>
-                            <td th:text="${clean.date}"></td>
+                            <td th:text="${clean.description}"></td>
+                            <td th:text="${clean.cleanDate.toLocalDateTime().toLocalDate()}"></td>
+                            <td th:if="${!clean.isPast()}">
+                                <i>
+                                    <form th:action="@{'/sec/cleans/' + ${clean.id}}" th:method="DELETE">
+                                        <button class="btn btn btn-info" name="id" th:id="${clean.id}" type="Submit">
+                                            <span th:text="Revoke"> </span>
+                                        </button>
+                                    </form>
+                                </i>
+                            </td>
+
+                            <td th:if="${clean.isPast()}" th:text="Passed"></td>
                         </tr>
                         </tbody>
                     </table>

@@ -2,7 +2,6 @@ package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * ! NO DESCRIPTION !

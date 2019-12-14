@@ -1,10 +1,7 @@
 package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
-import io.uml.contracts.controller.error.ResourceNotFoundException;
-import io.uml.contracts.model.dao.CleaningLog;
 import io.uml.contracts.model.dao.Contract;
-import io.uml.contracts.model.dao.Flight;
 import io.uml.contracts.model.dao.WeaponLog;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -12,14 +9,14 @@ import io.uml.contracts.storage.impl.WeaponLogStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-import static io.uml.contracts.config.TemplateMapper.*;
+import static io.uml.contracts.config.TemplateMapper.PAGE_WEAPON_ADD;
+import static io.uml.contracts.config.TemplateMapper.PAGE_WEAPON_TABLE;
 
 /**
  * ! NO DESCRIPTION !

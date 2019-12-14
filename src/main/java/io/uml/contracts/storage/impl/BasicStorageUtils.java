@@ -1,7 +1,5 @@
 package io.uml.contracts.storage.impl;
 
-import io.uml.contracts.model.dao.BaseModel;
-
 import java.io.Serializable;
 import java.util.Collection;
 

@@ -1,5 +1,6 @@
 package io.uml.contracts.controller;
 
+import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.NotAuthorizedException;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
 import io.uml.contracts.model.dao.Client;
@@ -8,10 +9,7 @@ import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
-import io.uml.contracts.config.WebMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,7 +47,7 @@ public class ContractWebController extends BaseWebController {
         Contract contract = contractStorage.find(contractId).orElseThrow(ResourceNotFoundException::new);
         String role = getRoleFromContext();
         try {
-            if(!"ADMIN".equals(role)) {
+            if (!"ADMIN".equals(role)) {
                 final Client client = getClientFromContext();
                 if (!contract.getClient().getId().equals(client.getId())) {
                     throw new NotAuthorizedException();
@@ -122,14 +120,12 @@ public class ContractWebController extends BaseWebController {
     }
 
     @PostMapping(WebMapper.CONTRACT_ADD)
-    public String createContract(
-            @RequestParam("type") Contract.ContractType type,
-            @RequestParam("planet") String planet,
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("reward") String reward,
-            @RequestParam("comment") String comment
-    ) {
+    public String createContract(@RequestParam("type") Contract.ContractType type,
+                                 @RequestParam("planet") String planet,
+                                 @RequestParam("title") String title,
+                                 @RequestParam("description") String description,
+                                 @RequestParam("reward") String reward,
+                                 @RequestParam("comment") String comment) {
         final Client client = getClientFromContext();
         final Contract contract = new Contract();
         contract.setType(type);
