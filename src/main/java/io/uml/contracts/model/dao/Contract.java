@@ -23,8 +23,10 @@ public class Contract implements Serializable {
     }
 
     public enum ContractPhase {
-        AWAITS,
-        APPROVED
+        WAIT_APPROVE,
+        APPROVED,
+        IN_PROGRESS,
+        DONE
     }
 
     @Id
@@ -32,12 +34,11 @@ public class Contract implements Serializable {
 
     private String title;
     @Column(name = "contract_phase")
-    private ContractPhase phase = ContractPhase.AWAITS;
+    private ContractPhase phase = ContractPhase.WAIT_APPROVE;
     private String planet;
     private String reward;
     private String requirements;
-    @Column(name = "contract_comment")
-    private String comment;
+    private String description;
     @Column(name = "contract_type")
     private ContractType type;
 
@@ -117,8 +118,8 @@ public class Contract implements Serializable {
         return requirements;
     }
 
-    public String getComment() {
-        return comment;
+    public String getDescription() {
+        return description;
     }
 
     public void setPlanet(String planet) {
@@ -129,8 +130,8 @@ public class Contract implements Serializable {
         this.requirements = requirements;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDescription(String comment) {
+        this.description = comment;
     }
 
     public void setTitle(String title) {

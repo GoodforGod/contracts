@@ -125,21 +125,21 @@ public class ContractWebController extends BaseWebController {
                                  @RequestParam("title") String title,
                                  @RequestParam("description") String description,
                                  @RequestParam("reward") String reward,
-                                 @RequestParam("comment") String comment) {
+                                 @RequestParam("requirements") String requirements) {
         final Client client = getClientFromContext();
         final Contract contract = new Contract();
-        contract.setType(type);
-        contract.setRequirements(description);
-        contract.setPlanet(planet);
-        contract.setTitle(title);
-        contract.setReward(reward);
-        contract.setComment(comment);
         contract.setId(UUID.randomUUID().toString());
+        contract.setType(type);
+        contract.setRequirements(requirements);
+        contract.setDescription(description);
+        contract.setTitle(title);
+        contract.setPlanet(planet);
+        contract.setReward(reward);
         client.setContract(contract);
         contract.setClient(client);
+
         contractStorage.save(contract);
 
         return WebMapper.redirect(WebMapper.CONTRACT_TABLE);
     }
-
 }

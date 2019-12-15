@@ -8,8 +8,9 @@
 <div>
     <div th:replace="fragments/header :: header"></div>
 
+
     <section>
-        <div class="container">
+        <div class="text-center">
             <form th:action="@{'/sec/cleans/create'}">
                 <fieldset class="form-inline" style="width: 100px">
                     <button class="btn btn-primary center-block" type="submit">
@@ -18,8 +19,6 @@
                 </fieldset>
             </form>
         </div>
-
-        <div></div>
 
         <div>
             <div th:if="${!cleans.isEmpty()}">
@@ -34,7 +33,7 @@
                         <tr>
                             <th>Comment</th>
                             <th>Date</th>
-                            <th></th>
+                            <th>Remove</th>
                         </tr>
                         </thead>
                     </table>

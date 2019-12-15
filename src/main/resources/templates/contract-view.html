@@ -21,23 +21,42 @@
                         <span th:text="${contract.requirements}"></span>
                     </li>
                     <li class="d-flex align-items-center justify-content-between">
-                        <span th:text="${contract.comment}"></span>
+                        <span th:text="${contract.description}"></span>
                     </li>
                 </ul>
                 <div class="btn-toolbar">
-                    <div class="btn-group mr-2" th:if="${role == 'ADMIN' && contract.phase.name() == 'AWAITS'}">
+                    <div th:if="${role == 'ADMIN' && contract.flight == null && contract.phase.name() != 'WAIT_APPROVE'}"
+                         class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/flights/create/' + ${contract.id}}" th:method="GET">
+                                <button class="btn btn-warning" type="Submit">
+                                    <span> Add flight </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                    <div th:if="${role == 'ADMIN' && contract.flight != null}"
+                         class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/flights/' + ${contract.flight.id}}" th:method="GET">
+                                <button class="btn btn-info" type="Submit">
+                                    <span> Check flight </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                    <div th:if="${role == 'ADMIN' && contract.phase.name() == 'WAIT_APPROVE'}" class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
-                                <button class="btn btn btn-info" name="id" th:id="${contract.id}" type="Submit">
+                                <button class="btn btn-success" type="Submit">
                                     <span> Approve </span>
                                 </button>
                             </form>
                         </i>
                     </div>
-                    <div class="btn-group mr-2">
+                    <div th:if="${contract.phase.name() == 'WAIT_APPROVE' || contract.phase.name() == 'DONE'}" class="btn-group mr-2">
                         <form th:action="@{'/sec/contracts/' + ${contract.id}}" th:method="DELETE">
-                            <button class="btn btn btn-info" name="id" th:id="${contract.id}"
-                                    type="Submit">
+                            <button class="btn btn-danger" type="Submit">
                                 <span> Revoke </span>
                             </button>
                         </form>

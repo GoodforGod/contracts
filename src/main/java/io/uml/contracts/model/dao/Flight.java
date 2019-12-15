@@ -2,6 +2,8 @@ package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * ! NO DESCRIPTION !
@@ -15,7 +17,8 @@ public class Flight implements Serializable {
 
     @Id
     private String id;
-    private String route;
+    private String routeDetails;
+    private String planets;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contract_uid")
@@ -37,11 +40,23 @@ public class Flight implements Serializable {
         this.contract = contract;
     }
 
-    public String getRoute() {
-        return route;
+    public List<String> getPlanetsList() {
+        return Arrays.asList(planets.split(","));
     }
 
-    public void setRoute(String route) {
-        this.route = route;
+    public String getRouteDetails() {
+        return routeDetails;
+    }
+
+    public void setRouteDetails(String routeDetails) {
+        this.routeDetails = routeDetails;
+    }
+
+    public String getPlanets() {
+        return planets;
+    }
+
+    public void setPlanets(String planets) {
+        this.planets = planets;
     }
 }

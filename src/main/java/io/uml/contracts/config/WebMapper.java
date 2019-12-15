@@ -22,8 +22,8 @@ public class WebMapper {
     public static final String CLEAN_TABLE = SECURED + "/cleans";
     public static final String CLEAN_ADD = SECURED + "/cleans/create";
 
-    public static final String FLIGHT_ADD = SECURED + "/flights";
-    public static final String FLIGHT_VIEW = SECURED + "/flights/create";
+    public static final String FLIGHT_VIEW = SECURED + "/flights";
+    public static final String FLIGHT_ADD = SECURED + "/flights/create";
 
     public static final String WEAPON_TABLE = SECURED + "/weapons";
     public static final String WEAPON_ADD = SECURED + "/weapons/create";

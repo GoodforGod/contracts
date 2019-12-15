@@ -1,19 +1,20 @@
 package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
-import io.uml.contracts.model.dao.Contract;
-import io.uml.contracts.model.dao.WeaponLog;
+import io.uml.contracts.model.dao.Mercenary;
+import io.uml.contracts.model.dao.Weapon;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
-import io.uml.contracts.storage.impl.WeaponLogStorage;
+import io.uml.contracts.storage.impl.WeaponStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import static io.uml.contracts.config.TemplateMapper.PAGE_WEAPON_ADD;
 import static io.uml.contracts.config.TemplateMapper.PAGE_WEAPON_TABLE;
@@ -27,23 +28,34 @@ import static io.uml.contracts.config.TemplateMapper.PAGE_WEAPON_TABLE;
 @Controller
 public class WeaponWebController extends BaseWebController {
 
-    private final WeaponLogStorage weaponLogStorage;
+    private final WeaponStorage weaponStorage;
 
     @Autowired
     public WeaponWebController(ClientStorage clientStorage,
                                MercenaryStorage mercenaryStorage,
-                               WeaponLogStorage weaponLogStorage) {
+                               WeaponStorage weaponStorage) {
         super(clientStorage, mercenaryStorage);
-        this.weaponLogStorage = weaponLogStorage;
+        this.weaponStorage = weaponStorage;
     }
 
     @GetMapping(WebMapper.WEAPON_TABLE)
     public ModelAndView table() {
         final ModelAndView view = new ModelAndView(PAGE_WEAPON_TABLE);
-        final List<WeaponLog> all = weaponLogStorage.findAll();
+        final List<Weapon> all = weaponStorage.findAll();
         view.addObject("weapons", all);
         view.addObject("role", getRoleFromContext());
         return view;
+    }
+
+    @DeleteMapping(WebMapper.WEAPON_TABLE + "/{id}")
+    public String delete(@PathVariable("id") String id) {
+        weaponStorage.find(id).ifPresent(w -> {
+                    w.setResponsible(null);
+                    weaponStorage.save(w);
+                    weaponStorage.delete(w.getId());
+                });
+
+        return WebMapper.redirect(WebMapper.WEAPON_TABLE);
     }
 
     @GetMapping(WebMapper.WEAPON_ADD)
@@ -52,15 +64,19 @@ public class WeaponWebController extends BaseWebController {
     }
 
     @PostMapping(WebMapper.WEAPON_ADD)
-    public String add(@RequestParam("type") Contract.ContractType type,
-                      @RequestParam("planet") String planet,
-                      @RequestParam("title") String title,
-                      @RequestParam("description") String description,
-                      @RequestParam("reward") String reward,
-                      @RequestParam("comment") String comment) {
-        final WeaponLog log = new WeaponLog();
-
-        weaponLogStorage.save(log);
+    public String add(@RequestParam("type") Weapon.WeaponType type,
+                      @RequestParam("name") String name,
+                      @RequestParam("description") String description) {
+        final Weapon weapon = new Weapon();
+        final Mercenary mercenary = getMercenaryFromContext();
+        weapon.setAddDate(Timestamp.valueOf(LocalDateTime.now()));
+        weapon.setId(UUID.randomUUID().toString());
+        weapon.setName(name);
+        weapon.setDescription(description);
+        weapon.setStatus(Weapon.WeaponStatus.GOOD);
+        weapon.setType(type);
+        weapon.setResponsible(mercenary);
+        weaponStorage.save(weapon);
 
         return WebMapper.redirect(WebMapper.WEAPON_TABLE);
     }

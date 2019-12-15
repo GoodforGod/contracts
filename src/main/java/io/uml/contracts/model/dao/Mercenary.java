@@ -54,7 +54,7 @@ public class Mercenary implements Serializable {
     private Set<CleaningLog> logs = new HashSet<>();
 
     @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
-    private Set<WeaponLog> weaponLogs = new HashSet<>();
+    private Set<Weapon> weapons = new HashSet<>();
 
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private Set<Playlist> playlists = new HashSet<>();
@@ -103,8 +103,8 @@ public class Mercenary implements Serializable {
         return logs;
     }
 
-    public Set<WeaponLog> getWeaponLogs() {
-        return weaponLogs;
+    public Set<Weapon> getWeapons() {
+        return weapons;
     }
 
     public Set<Flight> getFlights() {
@@ -132,9 +132,9 @@ public class Mercenary implements Serializable {
         return flight;
     }
 
-    public WeaponLog addLog(WeaponLog weaponLog) {
-        this.weaponLogs.add(weaponLog);
-        return weaponLog;
+    public Weapon addLog(Weapon weapon) {
+        this.weapons.add(weapon);
+        return weapon;
     }
 
     public void setFlights(Set<Flight> flights) {
@@ -145,8 +145,8 @@ public class Mercenary implements Serializable {
         this.logs = logs;
     }
 
-    public void setWeaponLogs(Set<WeaponLog> weaponLogs) {
-        this.weaponLogs = weaponLogs;
+    public void setWeapons(Set<Weapon> weapons) {
+        this.weapons = weapons;
     }
 
     public void setName(String name) {

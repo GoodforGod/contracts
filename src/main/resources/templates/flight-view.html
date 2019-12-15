@@ -11,74 +11,66 @@
 
     <section>
         <div class="product-sidebar card mt-4">
-            <div class="card-body" th:if="${contract != null}" style="color: #cccccc">
-                <h1 class="display-3" th:text="${contract.title}"></h1>
-                <h3 class="display-5" th:text="${contract.phase}"></h3>
-                <h4 th:text="${contract.planet}"></h4>
-                <h6 th:text="${contract.type}"></h6>
-                <ul class="product-meta list-inline mt-3">
-                    <li class="d-flex align-items-center justify-content-between">
-                        <span th:text="${contract.requirements}"></span>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between">
-                        <span th:text="${contract.comment}"></span>
-                    </li>
-                </ul>
-                <div class="btn-toolbar">
-                    <div class="btn-group mr-2" th:if="${role == 'ADMIN' && contract.phase.name() == 'AWAITS'}">
+
+            <div class="card-body" style="color: #cccccc">
+                <h1 class="display-1" th:text="${flight.contract.title}"></h1>
+                <h6 class="display-4" th:text="${'Details: ' + flight.routeDetails}" style="color: black"></h6>
+
+                <div>
+                    <h5 class="display-5" th:text="${'Detailed route one by one'}" style="color: #2D3B55"></h5>
+
+                    <div class="tbl-header">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <colgroup>
+                                <col style="width:5%"/>
+                                <col style="width:40%"/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th style="color: black">№</th>
+                                <th style="color: black">Planet</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="tbl-content">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <colgroup>
+                                <col style="width:5%"/>
+                                <col style="width:40%"/>
+                            </colgroup>
+                            <tbody>
+                            <tr th:each="planet,iter : ${flight.getPlanetsList()}">
+                                <td th:text="${iter.count}" style="color: black"></td>
+                                <td th:text="${planet}" style="color: black"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div th:if="${role == 'ADMIN'}"
+                         class="btn-group mr-2">
                         <i>
-                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
-                                <button class="btn btn btn-info" name="id" th:id="${contract.id}" type="Submit">
-                                    <span> Approve </span>
+                            <form th:action="@{'/sec/contracts/' + ${flight.contract.id}}" th:method="GET">
+                                <button class="btn btn-info" type="Submit">
+                                    <span> Back </span>
                                 </button>
                             </form>
                         </i>
                     </div>
-                    <div class="btn-group mr-2">
-                        <form th:action="@{'/sec/contracts/' + ${contract.id}}" th:method="DELETE">
-                            <button class="btn btn btn-info" name="id" th:id="${contract.id}"
-                                    type="Submit">
-                                <span> Revoke </span>
-                            </button>
-                        </form>
+                    <div th:if="${role == 'ADMIN'}"
+                         class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/flights/' + ${flight.id}}" th:method="DELETE">
+                                <button class="btn btn-danger" type="Submit">
+                                    <span> Revoke </span>
+                                </button>
+                            </form>
+                        </i>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <div th:if="${!comments.isEmpty()}">
-                <div class="tbl-header">
-                    <table cellpadding="0" cellspacing="0" border="0">
-                        <colgroup>
-                            <col style="width:40%"/>
-                            <col style="width:40%"/>
-                            <col style="width:20%"/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>Author</th>
-                            <th>Comment</th>
-                            <th>Date</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div th:if="${!comments.isEmpty()}" class="tbl-content">
-                    <table cellpadding="0" cellspacing="0" border="0">
-                        <colgroup>
-                            <col style="width:40%"/>
-                            <col style="width:40%"/>
-                            <col style="width:20%"/>
-                        </colgroup>
-                        <tbody>
-                        <tr th:each="comment : ${comments}">
-                            <td th:text="${comment.author}"></td>
-                            <td th:text="${comment.value}"></td>
-                            <td th:text="${comment.date}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
