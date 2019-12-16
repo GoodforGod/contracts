@@ -88,7 +88,7 @@ public class ContractWebController extends BaseWebController {
         }
 
         Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);
-        contract.approve();
+        contract.setPhase(Contract.ContractPhase.APPROVED);
         contractStorage.save(contract);
 
         return viewContract(id);

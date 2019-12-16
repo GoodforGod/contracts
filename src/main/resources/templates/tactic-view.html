@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Flight View</title>
+    <div th:insert="fragments/table :: table-meta"></div>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"></div>
+
+    <section>
+        <div class="product-sidebar card mt-4">
+
+            <div class="card-body" style="color: #cccccc">
+                <h1 class="display-1" th:text="${tactic.contract.title}"></h1>
+                <h6 class="display-4" th:text="${'Name: ' + tactic.name}" style="color: black"></h6>
+
+                <div>
+                    <h5 class="display-5" th:text="${'Detailed tactic per mercenary'}" style="color: #2D3B55"></h5>
+
+                    <div class="tbl-header">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <colgroup>
+                                <col style="width:5%"/>
+                                <col style="width:40%"/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th style="color: black">Mercenary</th>
+                                <th style="color: black">Role</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="tbl-content">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <colgroup>
+                                <col style="width:5%"/>
+                                <col style="width:40%"/>
+                            </colgroup>
+                            <tbody>
+                            <tr th:each="role : ${tactic.roles}">
+                                <td th:text="${role.mercenary.name}" style="color: black"></td>
+                                <td th:text="${role.roleType}" style="color: black"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div>
+                    <div th:if="${role == 'ADMIN'}"
+                         class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/contracts/' + ${tactic.contract.id}}" th:method="GET">
+                                <button class="btn btn-info" type="Submit">
+                                    <span> Back </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                    <div th:if="${role == 'ADMIN'}"
+                         class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/tactic/' + ${tactic.id}}" th:method="DELETE">
+                                <button class="btn btn-danger" type="Submit">
+                                    <span> Revoke </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

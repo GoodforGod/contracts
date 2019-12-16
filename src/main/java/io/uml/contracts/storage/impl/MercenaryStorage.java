@@ -25,12 +25,42 @@ public class MercenaryStorage extends BasicStorage<Mercenary, String> {
     public MercenaryStorage(MercenaryRepository repository) {
         super(repository);
         this.mercenaryRepository = repository;
-        findByEmail(CLIENT_UID).orElseGet(() -> {
+        findByEmail(LORD_UID).orElseGet(() -> {
             final Mercenary mercenary = new Mercenary();
-            mercenary.setName("Start");
+            mercenary.setName("Star");
             mercenary.setSurname("Lord");
-            mercenary.setEmail(ADMIN_ID);
-            mercenary.setPassword(ADMIN_PASSWORD);
+            mercenary.setEmail(LORD_UID);
+            mercenary.setPassword(LORD_PASSWORD);
+            mercenary.setId(UUID.randomUUID().toString());
+            return save(mercenary).orElse(null);
+        });
+
+        findByEmail(DRAKS_UID).orElseGet(() -> {
+            final Mercenary mercenary = new Mercenary();
+            mercenary.setName("Draks");
+            mercenary.setSurname("The Destroyer");
+            mercenary.setEmail(DRAKS_UID);
+            mercenary.setPassword(DRAKS_PASSWORD);
+            mercenary.setId(UUID.randomUUID().toString());
+            return save(mercenary).orElse(null);
+        });
+
+        findByEmail(GAMORA_UID).orElseGet(() -> {
+            final Mercenary mercenary = new Mercenary();
+            mercenary.setName("Gamora");
+            mercenary.setSurname("Tanos Daughter");
+            mercenary.setEmail(GAMORA_UID);
+            mercenary.setPassword(GAMORA_PASSWORD);
+            mercenary.setId(UUID.randomUUID().toString());
+            return save(mercenary).orElse(null);
+        });
+
+        findByEmail(ROCKET_UID).orElseGet(() -> {
+            final Mercenary mercenary = new Mercenary();
+            mercenary.setName("Rocket");
+            mercenary.setSurname("Raccoon");
+            mercenary.setEmail(ROCKET_UID);
+            mercenary.setPassword(ROCKET_PASSWORD);
             mercenary.setId(UUID.randomUUID().toString());
             return save(mercenary).orElse(null);
         });

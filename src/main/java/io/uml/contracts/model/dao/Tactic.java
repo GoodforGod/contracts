@@ -1,7 +1,9 @@
 package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * ! NO DESCRIPTION !
@@ -17,11 +19,15 @@ public class Tactic {
     private String id;
     private String name;
 
-    @ManyToMany(mappedBy = "approvedTactics")
-    private List<Mercenary> approved;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contract_uid")
+    private Contract contract;
 
     @OneToMany(mappedBy = "tactic", cascade = CascadeType.ALL)
     private List<Comment> comments;
+
+    @OneToMany(mappedBy = "tactic", cascade = CascadeType.ALL)
+    private List<TacticRole> roles;
 
     public String getId() {
         return id;
@@ -45,5 +51,21 @@ public class Tactic {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
+    public List<TacticRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<TacticRole> roles) {
+        this.roles = roles;
     }
 }

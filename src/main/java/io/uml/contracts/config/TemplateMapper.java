@@ -24,6 +24,9 @@ public class TemplateMapper {
     public static final String PAGE_FLIGHT_ADD = "flight-add";
     public static final String PAGE_FLIGHT_VIEW = "flight-view";
 
+    public static final String PAGE_TACTIC_ADD = "tactic-add";
+    public static final String PAGE_TACTIC_VIEW = "tactic-view";
+
     public static final String PAGE_WEAPON_TABLE = "weapon-table";
     public static final String PAGE_WEAPON_ADD = "weapon-add";
 }

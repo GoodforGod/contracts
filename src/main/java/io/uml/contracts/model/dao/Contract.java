@@ -31,24 +31,42 @@ public class Contract implements Serializable {
 
     @Id
     private String id;
-
     private String title;
+
     @Column(name = "contract_phase")
     private ContractPhase phase = ContractPhase.WAIT_APPROVE;
     private String planet;
     private String reward;
     private String requirements;
     private String description;
+
     @Column(name = "contract_type")
     private ContractType type;
 
     @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
     private Flight flight;
+
+    @OneToOne(mappedBy = "contract", cascade = CascadeType.ALL)
+    private Tactic tactic;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_uid")
     private Client client;
+
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
     private Set<Comment> comments = new HashSet<>();
+
+    public void setPhase(ContractPhase phase) {
+        this.phase = phase;
+    }
+
+    public Tactic getTactic() {
+        return tactic;
+    }
+
+    public void setTactic(Tactic tactic) {
+        this.tactic = tactic;
+    }
 
     public String getId() {
         return id;
@@ -96,10 +114,6 @@ public class Contract implements Serializable {
 
     public ContractPhase getPhase() {
         return phase;
-    }
-
-    public void approve() {
-        this.phase = ContractPhase.APPROVED;
     }
 
     public String getPlanet() {

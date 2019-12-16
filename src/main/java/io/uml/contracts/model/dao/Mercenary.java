@@ -29,8 +29,10 @@ public class Mercenary implements Serializable {
 
     private String name;
     private String surname;
+
     @NotNull
     private String email;
+    @NotNull
     private String password;
     private String clan = "Galaxy Guardians";
     private MercenaryRoles role;
@@ -40,7 +42,7 @@ public class Mercenary implements Serializable {
             name = "ccc_approved_tactics",
             joinColumns = @JoinColumn(name = "tactic_id"),
             inverseJoinColumns = @JoinColumn(name = "mercenary_id"))
-    private List<Tactic> approvedTactics;
+    private List<TacticRole> approvedTactics;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
@@ -52,6 +54,9 @@ public class Mercenary implements Serializable {
 
     @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
     private Set<CleaningLog> logs = new HashSet<>();
+
+    @OneToMany(mappedBy = "mercenary", cascade = CascadeType.ALL)
+    private Set<TacticRole> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "responsible", cascade = CascadeType.ALL)
     private Set<Weapon> weapons = new HashSet<>();
@@ -83,11 +88,11 @@ public class Mercenary implements Serializable {
         this.playlists = playlists;
     }
 
-    public List<Tactic> getApprovedTactics() {
+    public List<TacticRole> getApprovedTactics() {
         return approvedTactics;
     }
 
-    public void setApprovedTactics(List<Tactic> approvedTactics) {
+    public void setApprovedTactics(List<TacticRole> approvedTactics) {
         this.approvedTactics = approvedTactics;
     }
 

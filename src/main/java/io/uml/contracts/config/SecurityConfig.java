@@ -23,11 +23,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String ROLE_ADMIN = "ADMIN";
     private static final String ROLE_CLIENT = "CLIENT";
 
-    public static final String ADMIN_ID = "admin";
-    public static final String ADMIN_PASSWORD = "1234";
-
-    public static final String CLIENT_UID = "client";
+    public static final String CLIENT_ID = "client";
     public static final String CLIENT_PASSWORD = "1234";
+
+    public static final String LORD_UID = "lord";
+    public static final String LORD_PASSWORD = "1234";
+
+    public static final String GAMORA_UID = "gamora";
+    public static final String GAMORA_PASSWORD = "1234";
+
+    public static final String DRAKS_UID = "draks";
+    public static final String DRAKS_PASSWORD = "1234";
+
+    public static final String ROCKET_UID = "rocket";
+    public static final String ROCKET_PASSWORD = "1234";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -55,9 +64,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser(ADMIN_ID).password("{noop}" + ADMIN_PASSWORD).roles(ROLE_ADMIN)
+                .withUser(CLIENT_ID).password("{noop}" + CLIENT_PASSWORD).roles(ROLE_CLIENT)
                 .and()
-                .withUser(CLIENT_UID).password("{noop}" + CLIENT_PASSWORD).roles(ROLE_CLIENT);
+                .withUser(LORD_UID).password("{noop}" + LORD_PASSWORD).roles(ROLE_ADMIN)
+                .and()
+                .withUser(GAMORA_UID).password("{noop}" + GAMORA_PASSWORD).roles(ROLE_ADMIN)
+                .and()
+                .withUser(DRAKS_UID).password("{noop}" + DRAKS_PASSWORD).roles(ROLE_ADMIN)
+                .and()
+                .withUser(ROCKET_UID).password("{noop}" + ROCKET_PASSWORD).roles(ROLE_ADMIN);
     }
 
     @Override

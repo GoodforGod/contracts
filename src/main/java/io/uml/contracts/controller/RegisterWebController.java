@@ -22,8 +22,12 @@ import static io.uml.contracts.config.TemplateMapper.PAGE_REGISTER;
 @Controller
 public class RegisterWebController {
 
+    private final ClientStorage clientStorage;
+
     @Autowired
-    private ClientStorage clientStorage;
+    public RegisterWebController(ClientStorage clientStorage) {
+        this.clientStorage = clientStorage;
+    }
 
     @GetMapping(WebMapper.REGISTER)
     public ModelAndView getPage() {

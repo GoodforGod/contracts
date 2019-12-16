@@ -30,21 +30,45 @@
                         <i>
                             <form th:action="@{'/sec/flights/create/' + ${contract.id}}" th:method="GET">
                                 <button class="btn btn-warning" type="Submit">
-                                    <span> Add flight </span>
+                                    <span> Add Flight </span>
                                 </button>
                             </form>
                         </i>
                     </div>
-                    <div th:if="${role == 'ADMIN' && contract.flight != null}"
-                         class="btn-group mr-2">
+                    <div th:if="${role == 'ADMIN' && contract.flight != null}" class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/flights/' + ${contract.flight.id}}" th:method="GET">
                                 <button class="btn btn-info" type="Submit">
-                                    <span> Check flight </span>
+                                    <span> Check Flight </span>
                                 </button>
                             </form>
                         </i>
                     </div>
+
+
+
+                    <div th:if="${role == 'ADMIN' && contract.tactic == null && contract.phase.name() != 'WAIT_APPROVE'}"
+                         class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/tactic/create/' + ${contract.id}}" th:method="GET">
+                                <button class="btn btn-warning" type="Submit">
+                                    <span> Add Tactic </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                    <div th:if="${role == 'ADMIN' && contract.tactic != null}" class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/tactic/' + ${contract.tactic.id}}" th:method="GET">
+                                <button class="btn btn-info" type="Submit">
+                                    <span> Check Tactic </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+
+
+
                     <div th:if="${role == 'ADMIN' && contract.phase.name() == 'WAIT_APPROVE'}" class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">

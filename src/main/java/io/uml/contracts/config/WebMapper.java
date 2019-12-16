@@ -25,6 +25,9 @@ public class WebMapper {
     public static final String FLIGHT_VIEW = SECURED + "/flights";
     public static final String FLIGHT_ADD = SECURED + "/flights/create";
 
+    public static final String TACTIC_VIEW = SECURED + "/tactic";
+    public static final String TACTIC_ADD = SECURED + "/tactic/create";
+
     public static final String WEAPON_TABLE = SECURED + "/weapons";
     public static final String WEAPON_ADD = SECURED + "/weapons/create";
 
