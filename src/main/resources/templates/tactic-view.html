@@ -61,7 +61,7 @@
                             </form>
                         </i>
                     </div>
-                    <div th:if="${role == 'ADMIN'}"
+                    <div th:if="${role == 'ADMIN' && tactic.contract.phase.name() == 'APPROVED'}"
                          class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/tactic/' + ${tactic.id}}" th:method="DELETE">

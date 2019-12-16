@@ -94,6 +94,32 @@ public class ContractWebController extends BaseWebController {
         return viewContract(id);
     }
 
+    @GetMapping(WebMapper.CONTRACT_TABLE + "/init/{id}")
+    public ModelAndView initiateContract(@PathVariable("id") String id) {
+        final String role = getRoleFromContext();
+        if (!"ADMIN".equals(role))
+            throw new NotAuthorizedException();
+
+        final Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);
+        contract.setPhase(Contract.ContractPhase.IN_PROGRESS);
+        contractStorage.save(contract);
+
+        return viewContract(id);
+    }
+
+    @GetMapping(WebMapper.CONTRACT_TABLE + "/close/{id}")
+    public ModelAndView closeContract(@PathVariable("id") String id) {
+        final String role = getRoleFromContext();
+        if (!"ADMIN".equals(role))
+            throw new NotAuthorizedException();
+
+        final Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);
+        contract.setPhase(Contract.ContractPhase.CLOSED);
+        contractStorage.save(contract);
+
+        return viewContract(id);
+    }
+
     @GetMapping(WebMapper.CONTRACT_TABLE)
     public ModelAndView getContracts() {
         final ModelAndView view = new ModelAndView(PAGE_CONTRACT_TABLE);

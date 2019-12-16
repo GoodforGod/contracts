@@ -26,7 +26,7 @@ public class Contract implements Serializable {
         WAIT_APPROVE,
         APPROVED,
         IN_PROGRESS,
-        DONE
+        CLOSED
     }
 
     @Id

@@ -69,6 +69,24 @@
 
 
 
+                    <div th:if="${role == 'ADMIN' && contract.flight != null && contract.tactic != null && contract.phase.name() == 'APPROVED'}" class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
+                                <button class="btn btn-success" type="Submit">
+                                    <span> Initiate </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
+                    <div th:if="${role == 'ADMIN' && contract.phase.name() == 'WAIT_APPROVE'}" class="btn-group mr-2">
+                        <i>
+                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
+                                <button class="btn btn-success" type="Submit">
+                                    <span> Close </span>
+                                </button>
+                            </form>
+                        </i>
+                    </div>
                     <div th:if="${role == 'ADMIN' && contract.phase.name() == 'WAIT_APPROVE'}" class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
