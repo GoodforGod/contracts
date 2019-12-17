@@ -25,7 +25,7 @@
                     </li>
                 </ul>
                 <div class="btn-toolbar">
-                    <div th:if="${role == 'ADMIN' && contract.flight == null && contract.phase.name() != 'WAIT_APPROVE'}"
+                    <div th:if="${role == 'ADMIN' && contract.flight == null && contract.phase.name() != 'WAIT_APPROVE' && contract.phase.name() != 'CLOSED'}"
                          class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/flights/create/' + ${contract.id}}" th:method="GET">
@@ -47,7 +47,7 @@
 
 
 
-                    <div th:if="${role == 'ADMIN' && contract.tactic == null && contract.phase.name() != 'WAIT_APPROVE'}"
+                    <div th:if="${role == 'ADMIN' && contract.tactic == null && contract.phase.name() != 'WAIT_APPROVE' && contract.phase.name() != 'CLOSED'}"
                          class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/tactic/create/' + ${contract.id}}" th:method="GET">
@@ -71,16 +71,16 @@
 
                     <div th:if="${role == 'ADMIN' && contract.flight != null && contract.tactic != null && contract.phase.name() == 'APPROVED'}" class="btn-group mr-2">
                         <i>
-                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
+                            <form th:action="@{'/sec/contracts/init/' + ${contract.id}}" th:method="GET">
                                 <button class="btn btn-success" type="Submit">
                                     <span> Initiate </span>
                                 </button>
                             </form>
                         </i>
                     </div>
-                    <div th:if="${role == 'ADMIN' && contract.phase.name() == 'WAIT_APPROVE'}" class="btn-group mr-2">
+                    <div th:if="${role == 'ADMIN' && contract.phase.name() == 'IN_PROGRESS'}" class="btn-group mr-2">
                         <i>
-                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
+                            <form th:action="@{'/sec/contracts/close/' + ${contract.id}}" th:method="GET">
                                 <button class="btn btn-success" type="Submit">
                                     <span> Close </span>
                                 </button>
