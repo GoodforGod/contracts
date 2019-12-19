@@ -8,6 +8,8 @@ import io.uml.contracts.storage.impl.MercenaryStorage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Optional;
+
 /**
  * ! NO DESCRIPTION !
  *
@@ -24,14 +26,14 @@ abstract class BaseWebController {
         this.mercenaryStorage = mercenaryStorage;
     }
 
-    Client getClientFromContext() {
+    Optional<Client> getClientFromContext() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return clientStorage.findByEmail(authentication.getName()).orElseThrow(NotAuthorizedException::new);
+        return clientStorage.findByEmail(authentication.getName());
     }
 
-    Mercenary getMercenaryFromContext() {
+    Optional<Mercenary> getMercenaryFromContext() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return mercenaryStorage.findByEmail(authentication.getName()).orElseThrow(NotAuthorizedException::new);
+        return mercenaryStorage.findByEmail(authentication.getName());
     }
 
     String getIdFromContext() {

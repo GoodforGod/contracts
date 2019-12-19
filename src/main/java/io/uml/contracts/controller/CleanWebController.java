@@ -2,8 +2,6 @@ package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.model.dao.CleaningLog;
-import io.uml.contracts.model.dao.Contract;
-import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.storage.impl.CleaningLogStorage;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -14,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -74,15 +71,16 @@ public class CleanWebController extends BaseWebController {
                       @RequestParam("description") String description) {
         final CleaningLog log = new CleaningLog();
         log.setCleanDate(Timestamp.valueOf(LocalDate.parse(date).atStartOfDay()));
-        if(log.isPast())
+        if (log.isPast())
             return WebMapper.redirect(WebMapper.CLEAN_ADD + "?error=true");
 
-        log.setDescription(description);
-        log.setId(UUID.randomUUID().toString());
-        final Mercenary mercenary = getMercenaryFromContext();
-        log.setResponsible(mercenary);
+        getMercenaryFromContext().ifPresent(m -> {
+            log.setDescription(description);
+            log.setId(UUID.randomUUID().toString());
+            log.setResponsible(m);
 
-        cleaningLogStorage.save(log);
+            cleaningLogStorage.save(log);
+        });
 
         return WebMapper.redirect(WebMapper.CLEAN_TABLE);
     }

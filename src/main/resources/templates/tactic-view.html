@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:insert="fragments/header :: header-meta"></div>
-    <title>Flight View</title>
+    <title>Tactic View</title>
     <div th:insert="fragments/table :: table-meta"></div>
 </head>
 <body>
@@ -70,6 +70,55 @@
                                 </button>
                             </form>
                         </i>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <form th:action="@{'/sec/tactic/comment/' + ${tactic.id}}" th:method="POST">
+                        <fieldset class="form-inline">
+                            <div style="padding: 5px">
+                        <textarea name="comment" placeholder="Enter comment" class="form-control"
+                                  rows="4" cols="60" autocomplete="off"></textarea>
+                            </div>
+                            <div style="padding: 5px">
+                                <button class="btn btn-info" type="Submit" style="width: 100px">
+                                    <span> Comment </span>
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div th:if="${!comments.isEmpty()}">
+                    <div class="tbl-header">
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <colgroup>
+                                <col style="width:20%"/>
+                                <col style="width:60%"/>
+                                <col style="width:20%"/>
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>Author</th>
+                                <th>Comment</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                        </table>
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <colgroup>
+                                <col style="width:20%"/>
+                                <col style="width:60%"/>
+                                <col style="width:20%"/>
+                            </colgroup>
+                            <tbody>
+                            <tr th:each="comment : ${comments}">
+                                <td th:text="${comment.author}"></td>
+                                <td th:text="${comment.value}"></td>
+                                <td th:text="${comment.date}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

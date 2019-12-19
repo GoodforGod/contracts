@@ -1,6 +1,7 @@
 package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +48,13 @@ public class Tactic {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public Tactic addComment(Comment comment) {
+        if(comments == null)
+            this.comments = new ArrayList<>();
+        this.comments.add(comment);
+        return this;
     }
 
     public void setComments(List<Comment> comments) {

@@ -2,10 +2,7 @@ package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
-import io.uml.contracts.model.dao.Contract;
-import io.uml.contracts.model.dao.Mercenary;
-import io.uml.contracts.model.dao.Tactic;
-import io.uml.contracts.model.dao.TacticRole;
+import io.uml.contracts.model.dao.*;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -15,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,6 +76,34 @@ public class TacticWebController extends BaseWebController {
         view.addObject("contract", contract);
         view.addObject("mercenaries", all);
         return view;
+    }
+
+    @PostMapping(WebMapper.TACTIC_COMMENT + "/{id}")
+    public String commentTactic(@PathVariable("id") String tacticId,
+                                @RequestParam("comment") String comment) {
+        tacticStorage.find(tacticId).ifPresent(t -> {
+            final Optional<Client> client = getClientFromContext();
+
+            final Comment.AuthorType authorType = client.map(cli -> Comment.AuthorType.CLIENT)
+                    .orElse(Comment.AuthorType.MERCENARY);
+
+            final String name = client.map(Client::getName)
+                    .orElseGet(() -> getMercenaryFromContext().map(m -> m.getName() + " " + m.getSurname())
+                            .orElse(""));
+
+            final Comment commentModel = new Comment();
+            commentModel.setId(UUID.randomUUID().toString());
+            commentModel.setDate(Timestamp.valueOf(LocalDateTime.now()));
+            commentModel.setAuthorType(authorType);
+            commentModel.setValue(comment);
+            commentModel.setAuthor(name);
+            commentModel.setTactic(t);
+            t.addComment(commentModel);
+
+            tacticStorage.save(t);
+        });
+
+        return WebMapper.redirect(WebMapper.TACTIC_VIEW + "/" + tacticId);
     }
 
     @PostMapping(WebMapper.TACTIC_ADD + "/" + "{contractId}")

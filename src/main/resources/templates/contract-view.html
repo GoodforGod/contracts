@@ -46,7 +46,6 @@
                     </div>
 
 
-
                     <div th:if="${role == 'ADMIN' && contract.tactic == null && contract.phase.name() != 'WAIT_APPROVE' && contract.phase.name() != 'CLOSED'}"
                          class="btn-group mr-2">
                         <i>
@@ -68,8 +67,8 @@
                     </div>
 
 
-
-                    <div th:if="${role == 'ADMIN' && contract.flight != null && contract.tactic != null && contract.phase.name() == 'APPROVED'}" class="btn-group mr-2">
+                    <div th:if="${role == 'ADMIN' && contract.flight != null && contract.tactic != null && contract.phase.name() == 'APPROVED'}"
+                         class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/contracts/init/' + ${contract.id}}" th:method="GET">
                                 <button class="btn btn-success" type="Submit">
@@ -96,7 +95,8 @@
                             </form>
                         </i>
                     </div>
-                    <div th:if="${contract.phase.name() == 'WAIT_APPROVE' || contract.phase.name() == 'DONE'}" class="btn-group mr-2">
+                    <div th:if="${contract.phase.name() == 'WAIT_APPROVE' || contract.phase.name() == 'DONE'}"
+                         class="btn-group mr-2">
                         <form th:action="@{'/sec/contracts/' + ${contract.id}}" th:method="DELETE">
                             <button class="btn btn-danger" type="Submit">
                                 <span> Revoke </span>
@@ -107,40 +107,52 @@
             </div>
         </div>
 
-        <div>
-            <div th:if="${!comments.isEmpty()}">
-                <div class="tbl-header">
-                    <table cellpadding="0" cellspacing="0" border="0">
-                        <colgroup>
-                            <col style="width:40%"/>
-                            <col style="width:40%"/>
-                            <col style="width:20%"/>
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>Author</th>
-                            <th>Comment</th>
-                            <th>Date</th>
-                        </tr>
-                        </thead>
-                    </table>
-                </div>
-                <div th:if="${!comments.isEmpty()}" class="tbl-content">
-                    <table cellpadding="0" cellspacing="0" border="0">
-                        <colgroup>
-                            <col style="width:40%"/>
-                            <col style="width:40%"/>
-                            <col style="width:20%"/>
-                        </colgroup>
-                        <tbody>
-                        <tr th:each="comment : ${comments}">
-                            <td th:text="${comment.author}"></td>
-                            <td th:text="${comment.value}"></td>
-                            <td th:text="${comment.date}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+        <div class="container" th:if="${contract.phase.name() != 'CLOSED'}">
+            <form th:action="@{'/sec/contracts/comment/' + ${contract.id}}" th:method="POST">
+                <fieldset class="form-inline">
+                    <div style="padding: 5px">
+                        <textarea name="comment" placeholder="Enter comment" class="form-control"
+                                  rows="4" cols="60" autocomplete="off"></textarea>
+                    </div>
+                    <div style="padding: 5px">
+                        <button class="btn btn-info" type="Submit" style="width: 100px">
+                            <span> Comment </span>
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div th:if="${!comments.isEmpty()}">
+            <div class="tbl-header">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width:20%"/>
+                        <col style="width:60%"/>
+                        <col style="width:20%"/>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Author</th>
+                        <th>Comment</th>
+                        <th>Date</th>
+                    </tr>
+                    </thead>
+                </table>
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width:20%"/>
+                        <col style="width:60%"/>
+                        <col style="width:20%"/>
+                    </colgroup>
+                    <tbody>
+                    <tr th:each="comment : ${comments}">
+                        <td th:text="${comment.author}"></td>
+                        <td th:text="${comment.value}"></td>
+                        <td th:text="${comment.date}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>

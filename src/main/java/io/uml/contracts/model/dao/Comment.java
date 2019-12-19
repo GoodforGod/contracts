@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Table(name = "ccc_comment")
 public class Comment implements Serializable {
 
-    public enum Author {
+    public enum AuthorType {
         CLIENT,
         MERCENARY
     }
@@ -24,10 +24,10 @@ public class Comment implements Serializable {
     private String id;
     @Column(name = "comment_value")
     private String value;
-    @Column(name = "comment_author")
+    @Column(name = "author_name")
     private String author;
-    @Column(name = "author_value")
-    private Author type;
+    @Column(name = "author_type")
+    private AuthorType authorType;
     @Column(name = "comment_date")
     private Timestamp date = Timestamp.valueOf(LocalDateTime.now());
 
@@ -67,8 +67,8 @@ public class Comment implements Serializable {
         return author;
     }
 
-    public Author getType() {
-        return type;
+    public AuthorType getAuthorType() {
+        return authorType;
     }
 
     public void setValue(String value) {
@@ -79,8 +79,8 @@ public class Comment implements Serializable {
         this.author = author;
     }
 
-    public void setType(Author type) {
-        this.type = type;
+    public void setAuthorType(AuthorType type) {
+        this.authorType = type;
     }
 
     public Timestamp getDate() {

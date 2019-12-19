@@ -4,6 +4,7 @@ import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.NotAuthorizedException;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
 import io.uml.contracts.model.dao.Client;
+import io.uml.contracts.model.dao.Comment;
 import io.uml.contracts.model.dao.Contract;
 import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.storage.impl.ClientStorage;
@@ -14,7 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static io.uml.contracts.config.TemplateMapper.*;
@@ -48,8 +52,8 @@ public class ContractWebController extends BaseWebController {
         String role = getRoleFromContext();
         try {
             if (!"ADMIN".equals(role)) {
-                final Client client = getClientFromContext();
-                if (!contract.getClient().getId().equals(client.getId())) {
+                final Optional<Client> client = getClientFromContext();
+                if (!client.isPresent() || !contract.getClient().getId().equals(client.get().getId())) {
                     throw new NotAuthorizedException();
                 }
             }
@@ -123,26 +127,49 @@ public class ContractWebController extends BaseWebController {
     @GetMapping(WebMapper.CONTRACT_TABLE)
     public ModelAndView getContracts() {
         final ModelAndView view = new ModelAndView(PAGE_CONTRACT_TABLE);
-
-        List<Contract> contracts = getContractsByRole();
+        final List<Contract> contracts = getContractsByRole();
         view.addObject("contracts", contracts);
         view.addObject("role", getRoleFromContext());
         return view;
     }
 
     private List<Contract> getContractsByRole() {
-        try {
-            final Client client = getClientFromContext();
-            return contractStorage.findByClient(client.getId());
-        } catch (Exception e) {
-            final Mercenary mercenary = getMercenaryFromContext();
-            return contractStorage.findAll();
-        }
+        return getClientFromContext()
+                .map(c -> contractStorage.findByClient(c.getId()))
+                .orElseGet(contractStorage::findAll);
     }
 
     @GetMapping(WebMapper.CONTRACT_ADD)
     public ModelAndView getContractAdd() {
         return new ModelAndView(PAGE_CONTRACT_ADD);
+    }
+
+    @PostMapping(WebMapper.CONTRACT_COMMENT + "/{id}")
+    public String commentContract(@PathVariable("id") String contractId,
+                                  @RequestParam("comment") String comment) {
+        contractStorage.find(contractId).ifPresent(c -> {
+            final Optional<Client> client = getClientFromContext();
+
+            final Comment.AuthorType authorType = client.map(cli -> Comment.AuthorType.CLIENT)
+                    .orElse(Comment.AuthorType.MERCENARY);
+
+            final String name = client.map(Client::getName)
+                    .orElseGet(() -> getMercenaryFromContext().map(m -> m.getName() + " " + m.getSurname())
+                            .orElse(""));
+
+            final Comment commentModel = new Comment();
+            commentModel.setId(UUID.randomUUID().toString());
+            commentModel.setDate(Timestamp.valueOf(LocalDateTime.now()));
+            commentModel.setAuthorType(authorType);
+            commentModel.setValue(comment);
+            commentModel.setAuthor(name);
+            commentModel.setContract(c);
+            c.addComment(commentModel);
+
+            contractStorage.save(c);
+        });
+
+        return WebMapper.redirect(WebMapper.CONTRACT_TABLE + "/" + contractId);
     }
 
     @PostMapping(WebMapper.CONTRACT_ADD)
@@ -152,19 +179,20 @@ public class ContractWebController extends BaseWebController {
                                  @RequestParam("description") String description,
                                  @RequestParam("reward") String reward,
                                  @RequestParam("requirements") String requirements) {
-        final Client client = getClientFromContext();
-        final Contract contract = new Contract();
-        contract.setId(UUID.randomUUID().toString());
-        contract.setType(type);
-        contract.setRequirements(requirements);
-        contract.setDescription(description);
-        contract.setTitle(title);
-        contract.setPlanet(planet);
-        contract.setReward(reward);
-        client.setContract(contract);
-        contract.setClient(client);
+        getClientFromContext().ifPresent(c -> {
+            final Contract contract = new Contract();
+            contract.setId(UUID.randomUUID().toString());
+            contract.setType(type);
+            contract.setRequirements(requirements);
+            contract.setDescription(description);
+            contract.setTitle(title);
+            contract.setPlanet(planet);
+            contract.setReward(reward);
+            c.setContract(contract);
+            contract.setClient(c);
 
-        contractStorage.save(contract);
+            contractStorage.save(contract);
+        });
 
         return WebMapper.redirect(WebMapper.CONTRACT_TABLE);
     }

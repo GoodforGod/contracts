@@ -1,7 +1,6 @@
 package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
-import io.uml.contracts.model.dao.Mercenary;
 import io.uml.contracts.model.dao.Weapon;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -50,10 +49,10 @@ public class WeaponWebController extends BaseWebController {
     @DeleteMapping(WebMapper.WEAPON_TABLE + "/{id}")
     public String delete(@PathVariable("id") String id) {
         weaponStorage.find(id).ifPresent(w -> {
-                    w.setResponsible(null);
-                    weaponStorage.save(w);
-                    weaponStorage.delete(w.getId());
-                });
+            w.setResponsible(null);
+            weaponStorage.save(w);
+            weaponStorage.delete(w.getId());
+        });
 
         return WebMapper.redirect(WebMapper.WEAPON_TABLE);
     }
@@ -67,16 +66,17 @@ public class WeaponWebController extends BaseWebController {
     public String add(@RequestParam("type") Weapon.WeaponType type,
                       @RequestParam("name") String name,
                       @RequestParam("description") String description) {
-        final Weapon weapon = new Weapon();
-        final Mercenary mercenary = getMercenaryFromContext();
-        weapon.setAddDate(Timestamp.valueOf(LocalDateTime.now()));
-        weapon.setId(UUID.randomUUID().toString());
-        weapon.setName(name);
-        weapon.setDescription(description);
-        weapon.setStatus(Weapon.WeaponStatus.GOOD);
-        weapon.setType(type);
-        weapon.setResponsible(mercenary);
-        weaponStorage.save(weapon);
+        getMercenaryFromContext().ifPresent(m -> {
+            final Weapon weapon = new Weapon();
+            weapon.setAddDate(Timestamp.valueOf(LocalDateTime.now()));
+            weapon.setId(UUID.randomUUID().toString());
+            weapon.setName(name);
+            weapon.setDescription(description);
+            weapon.setStatus(Weapon.WeaponStatus.GOOD);
+            weapon.setType(type);
+            weapon.setResponsible(m);
+            weaponStorage.save(weapon);
+        });
 
         return WebMapper.redirect(WebMapper.WEAPON_TABLE);
     }

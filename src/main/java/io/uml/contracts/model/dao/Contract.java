@@ -2,7 +2,9 @@ package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,7 +56,7 @@ public class Contract implements Serializable {
     private Client client;
 
     @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
-    private Set<Comment> comments = new HashSet<>();
+    private List<Comment> comments;
 
     public void setPhase(ContractPhase phase) {
         this.phase = phase;
@@ -76,11 +78,18 @@ public class Contract implements Serializable {
         this.id = id;
     }
 
-    public Set<Comment> getComments() {
+    public List<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(Set<Comment> comments) {
+    public Contract addComment(Comment comment) {
+        if(comments == null)
+            this.comments = new ArrayList<>();
+        this.comments.add(comment);
+        return this;
+    }
+
+    public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
 

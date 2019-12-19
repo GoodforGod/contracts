@@ -13,6 +13,7 @@ public class WebMapper {
 
     public static final String CONTRACT_TABLE = SECURED + "/contracts";
     public static final String CONTRACT_ADD = SECURED + "/contracts/create";
+    public static final String CONTRACT_COMMENT = SECURED + "/contracts/comment";
     public static final String CONTRACT_VIEW = SECURED + "/contracts/view";
 
     public static final String MUSIC_TABLE = SECURED + "/music";
@@ -27,6 +28,7 @@ public class WebMapper {
 
     public static final String TACTIC_VIEW = SECURED + "/tactic";
     public static final String TACTIC_ADD = SECURED + "/tactic/create";
+    public static final String TACTIC_COMMENT = SECURED + "/tactic/comment";
 
     public static final String WEAPON_TABLE = SECURED + "/weapons";
     public static final String WEAPON_ADD = SECURED + "/weapons/create";
