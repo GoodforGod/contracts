@@ -29,6 +29,9 @@ spring:
 server:
   port: 8080
 
+lastfm:
+  key: ${LASTFM_KEY}
+
 logging:
   level:
     io.swagger.models.parameters.AbstractSerializableParameter: error
@@ -55,3 +58,20 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: validate
+
+---
+
+spring:
+  profiles: test
+
+  jpa:
+    database: h2
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+
+  datasource:
+    url: jdbc:h2:mem:test
+    username:
+    password:
+    driver-class-name: org.h2.Driver

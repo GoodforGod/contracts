@@ -11,9 +11,9 @@ import java.util.List;
  */
 public class SearchResults {
 
-    private List<SearchTrack> results = Collections.emptyList();
+    private SearchResult results;
 
-    public List<SearchTrack> getResults() {
+    public SearchResult getResults() {
         return results;
     }
 }

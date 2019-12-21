@@ -31,6 +31,7 @@ dependencies {
     compile 'javax.xml.bind:jaxb-api:2.3.0'
     compile 'org.webjars:bootstrap:3.3.7'
 
+    testRuntime 'com.h2database:h2:1.4.200'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile "org.junit.jupiter:junit-jupiter-api:$jupiterVersion"
     testCompile "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
@@ -40,8 +41,15 @@ bootRun {
     main = 'io.uml.contracts.AppStarter'
 
     environment([
-            "ORA_USER": System.getenv("ORA_USER") ?: "$oraUser",
-            "ORA_PASS": System.getenv("ORA_PASS") ?: "$oraPass",
-            "ORA_URL" : System.getenv("ORA_URL") ?: "$oraUrl"
+            "ORA_USER"  : System.getenv("ORA_USER") ?: "$oraUser",
+            "ORA_PASS"  : System.getenv("ORA_PASS") ?: "$oraPass",
+            "ORA_URL"   : System.getenv("ORA_URL") ?: "$oraUrl",
+            "LASTFM_KEY": "$lastfm"
+    ])
+}
+
+test {
+    environment([
+            "LASTFM_KEY": "$lastfm"
     ])
 }

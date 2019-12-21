@@ -38,10 +38,9 @@ public class PlaylistWebController extends BaseWebController{
     @GetMapping(WebMapper.PLAYLIST_TABLE + "/{id}")
     public ModelAndView viewPlaylist(@PathVariable("id") String id) {
         final ModelAndView view = new ModelAndView(PAGE_CONTRACT_VIEW);
-        final Contract contract = verifyContract(id);
 
-        view.addObject("contract", contract);
-        view.addObject("comments", contract.getComments());
+//        view.addObject("contract", contract);
+//        view.addObject("comments", contract.getComments());
         view.addObject("role", getRoleFromContext());
         return view;
     }
@@ -55,7 +54,7 @@ public class PlaylistWebController extends BaseWebController{
     @GetMapping(WebMapper.PLAYLIST_TABLE)
     public ModelAndView getPlaylists() {
         final ModelAndView view = new ModelAndView(PAGE_PLAYLIST_TABLE);
-        view.addObject("playlists", contracts);
+//        view.addObject("playlists", contracts);
         view.addObject("role", getRoleFromContext());
         return view;
     }
