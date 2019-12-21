@@ -3,6 +3,9 @@ package io.uml.contracts.model.dao;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,15 +22,14 @@ public class Playlist implements Serializable {
     private String id;
     @NotNull
     private String name;
-    @NotNull
-    private String length;
+    private Timestamp created;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mercenary_id")
     private Mercenary creator;
 
     @ManyToMany(mappedBy = "playlists")
-    private List<Song> songs;
+    private List<Song> songs = Collections.emptyList();
 
     public String getId() {
         return id;
@@ -45,12 +47,14 @@ public class Playlist implements Serializable {
         this.creator = creator;
     }
 
-    public String getLength() {
-        return length;
+    public Timestamp getCreated() {
+        return created;
     }
 
-    public void setLength(String length) {
-        this.length = length;
+    public Playlist created() {
+        if (this.created == null)
+            this.created = Timestamp.valueOf(LocalDateTime.now());
+        return this;
     }
 
     public String getName() {

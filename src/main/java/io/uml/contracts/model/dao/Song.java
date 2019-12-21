@@ -18,6 +18,11 @@ public class Song implements Serializable {
     private String id;
     private String name;
 
+    /**
+     * Seconds
+     */
+    private Integer duration;
+
     @ManyToMany
     @JoinTable(
             name = "ccc_song_to_playlist",
@@ -39,6 +44,15 @@ public class Song implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public Song setDuration(Integer duration) {
+        this.duration = duration;
+        return this;
     }
 
     public List<Playlist> getPlaylists() {

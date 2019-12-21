@@ -14,9 +14,9 @@ public class TemplateMapper {
     public static final String PAGE_CONTRACT_ADD = "contract-add";
     public static final String PAGE_CONTRACT_VIEW = "contract-view";
 
-    public static final String PAGE_MUSIC_TABLE = "music-table";
-    public static final String PAGE_MUSIC_ADD = "music-add";
-    public static final String PAGE_MUSIC_VIEW = "music-view";
+    public static final String PAGE_PLAYLIST_TABLE = "music-table";
+    public static final String PAGE_PLAYLIST_ADD = "music-add";
+    public static final String PAGE_PLAYLIST_VIEW = "music-view";
 
     public static final String PAGE_CLEAN_TABLE = "clean-table";
     public static final String PAGE_CLEAN_ADD = "clean-add";

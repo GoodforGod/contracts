@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="fragments/header :: header-meta"></div>
+    <title>Musics</title>
+</head>
+<body>
+<div>
+    <div th:replace="fragments/header :: header"> </div>
+
+    <section>
+        <!--/*@thymesVar id="keys" type="java.util.List"*/-->
+        <div th:if="${!contracts.isEmpty()}">
+            <div class="tbl-header">
+                <table th:if="${role == 'ADMIN'}" cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width:30%"/>
+                        <col style="width:30%"/>
+                        <col style="width:20%"/>
+                        <col style="width:20%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>Playlist</th>
+                            <th>Songs</th>
+                            <th>Created</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div th:if="${role == 'ADMIN'}" class="tbl-content">
+                <table cellpadding="0" cellspacing="0" border="0">
+                    <colgroup>
+                        <col style="width:30%"/>
+                        <col style="width:30%"/>
+                        <col style="width:20%"/>
+                        <col style="width:20%"/>
+                    </colgroup>
+                    <tbody>
+                    <tr th:each="playlist : ${playlists}">
+                        <td th:text="${playlist.name}"></td>
+                        <td th:text="${playlist.songs.size()}"></td>
+                        <td th:text="${playlist.created}"></td>
+                        <td>
+                            <i>
+                                <form th:action="@{'/sec/playlists/' + ${playlist.id}}" th:method="DELETE">
+                                    <button class="btn btn-warning" type="Submit">
+                                        <span> Delete </span>
+                                    </button>
+                                </form>
+                            </i>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

@@ -46,7 +46,7 @@
                 <ul class="nav navbar-nav">
                     <li><a th:href="@{/sec/contracts}">Contracts</a></li>
                     <li th:if="${role == 'CLIENT'}"><a th:href="@{/sec/contracts/create}">Open Contract</a></li>
-<!--                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/music}">Music</a></li>-->
+                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/music}">Music</a></li>
                     <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/weapons}">Weapons</a></li>
                     <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/cleans}">Cleaning</a></li>
                     <li>
