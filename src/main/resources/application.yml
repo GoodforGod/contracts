@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: "dev"
+    active: "prod"
     # DEV clean start and schema creation
     # PROD to remember state between runs (only validate DB)
 
@@ -57,13 +57,9 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
 
 ---
-
-security:
-  basic:
-    enalbed: false
 
 spring:
   profiles: test
@@ -79,3 +75,7 @@ spring:
     username:
     password:
     driver-class-name: org.h2.Driver
+
+security:
+  basic:
+    enalbed: false
