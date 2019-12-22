@@ -50,6 +50,7 @@ public class StorageTests extends ContractRunner {
     public void saveValid() {
         final Mercenary mercenary = getMercenary();
         final Optional<Mercenary> save = storage.save(mercenary);
+        assertTrue(save.isPresent());
 
         final Optional<Mercenary> found = storage.find(mercenary.getId());
         assertTrue(found.isPresent());
@@ -59,6 +60,7 @@ public class StorageTests extends ContractRunner {
     public void existValid() {
         final Mercenary mercenary = getMercenary();
         final Optional<Mercenary> save = storage.save(mercenary);
+        assertTrue(save.isPresent());
 
         final boolean exist = storage.exist(mercenary.getId());
         assertTrue(exist);
@@ -84,6 +86,7 @@ public class StorageTests extends ContractRunner {
     public void findAllValid() {
         final Mercenary mercenary = getMercenary();
         final Optional<Mercenary> save = storage.save(mercenary);
+        assertTrue(save.isPresent());
 
         final List<Mercenary> all = storage.findAll();
         assertFalse(all.isEmpty());
@@ -93,6 +96,7 @@ public class StorageTests extends ContractRunner {
     public void deleteWhenExist() {
         final Mercenary mercenary = getMercenary();
         final Optional<Mercenary> save = storage.save(mercenary);
+        assertTrue(save.isPresent());
 
         final boolean delete = storage.delete(mercenary.getId());
         assertTrue(delete);
