@@ -51,8 +51,7 @@
                 </div>
 
                 <div>
-                    <div th:if="${role == 'ADMIN'}"
-                         class="btn-group mr-2">
+                    <div class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/contracts/' + ${tactic.contract.id}}" th:method="GET">
                                 <button class="btn btn-info" type="Submit">
@@ -61,11 +60,11 @@
                             </form>
                         </i>
                     </div>
-                    <div th:if="${role == 'ADMIN' && tactic.contract.phase.name() == 'APPROVED'}"
+                    <div th:if="${role == 'GAMORA' && tactic.contract.phase.name() == 'APPROVED'}"
                          class="btn-group mr-2">
                         <i>
                             <form th:action="@{'/sec/tactic/' + ${tactic.id}}" th:method="DELETE">
-                                <button class="btn btn-danger" type="Submit">
+                                <button class="btn btn-warning" type="Submit">
                                     <span> Revoke </span>
                                 </button>
                             </form>

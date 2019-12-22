@@ -20,8 +20,11 @@ import static io.uml.contracts.config.WebMapper.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String ROLE_ADMIN = "ADMIN";
-    private static final String ROLE_CLIENT = "CLIENT";
+    public static final String ROLE_LORD = "LORD";
+    public static final String ROLE_GAMORA = "GAMORA";
+    public static final String ROLE_DRAKS = "DRAKS";
+    public static final String ROLE_ROCKET = "ROCKET";
+    public static final String ROLE_CLIENT = "CLIENT";
 
     public static final String CLIENT_ID = "client";
     public static final String CLIENT_PASSWORD = "1234";
@@ -41,9 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(LOGIN, REGISTER,
-                        "/static/css/**").permitAll()
-                .antMatchers(SECURED + "/**", SWAGGER_DOC, SWAGGER_UI).hasAnyRole(ROLE_ADMIN, ROLE_CLIENT)
+                .antMatchers(LOGIN, REGISTER, "/static/css/**").permitAll()
+                .antMatchers(SECURED + "/**", SWAGGER_DOC, SWAGGER_UI).hasAnyRole(ROLE_LORD, ROLE_ROCKET, ROLE_DRAKS, ROLE_GAMORA, ROLE_CLIENT)
                 .anyRequest().authenticated()
                 .and()
                 .csrf()
@@ -66,13 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser(CLIENT_ID).password("{noop}" + CLIENT_PASSWORD).roles(ROLE_CLIENT)
                 .and()
-                .withUser(LORD_UID).password("{noop}" + LORD_PASSWORD).roles(ROLE_ADMIN)
+                .withUser(LORD_UID).password("{noop}" + LORD_PASSWORD).roles(ROLE_LORD)
                 .and()
-                .withUser(GAMORA_UID).password("{noop}" + GAMORA_PASSWORD).roles(ROLE_ADMIN)
+                .withUser(GAMORA_UID).password("{noop}" + GAMORA_PASSWORD).roles(ROLE_GAMORA)
                 .and()
-                .withUser(DRAKS_UID).password("{noop}" + DRAKS_PASSWORD).roles(ROLE_ADMIN)
+                .withUser(DRAKS_UID).password("{noop}" + DRAKS_PASSWORD).roles(ROLE_DRAKS)
                 .and()
-                .withUser(ROCKET_UID).password("{noop}" + ROCKET_PASSWORD).roles(ROLE_ADMIN);
+                .withUser(ROCKET_UID).password("{noop}" + ROCKET_PASSWORD).roles(ROLE_ROCKET);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package io.uml.contracts.controller;
 
+import io.uml.contracts.config.SecurityConfig;
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.NotAuthorizedException;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
@@ -51,7 +52,7 @@ public class ContractWebController extends BaseWebController {
         Contract contract = contractStorage.find(contractId).orElseThrow(ResourceNotFoundException::new);
         String role = getRoleFromContext();
         try {
-            if (!"ADMIN".equals(role)) {
+            if (!SecurityConfig.ROLE_LORD.equals(role)) {
                 final Optional<Client> client = getClientFromContext();
                 if (!client.isPresent() || !contract.getClient().getId().equals(client.get().getId())) {
                     throw new NotAuthorizedException();
@@ -87,7 +88,7 @@ public class ContractWebController extends BaseWebController {
     @GetMapping(WebMapper.CONTRACT_TABLE + "/approve/{id}")
     public ModelAndView approveContract(@PathVariable("id") String id) {
         String role = getRoleFromContext();
-        if (!"ADMIN".equals(role)) {
+        if (!SecurityConfig.ROLE_LORD.equals(role)) {
             throw new NotAuthorizedException();
         }
 
@@ -101,7 +102,7 @@ public class ContractWebController extends BaseWebController {
     @GetMapping(WebMapper.CONTRACT_TABLE + "/init/{id}")
     public ModelAndView initiateContract(@PathVariable("id") String id) {
         final String role = getRoleFromContext();
-        if (!"ADMIN".equals(role))
+        if (!SecurityConfig.ROLE_LORD.equals(role))
             throw new NotAuthorizedException();
 
         final Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);
@@ -114,7 +115,7 @@ public class ContractWebController extends BaseWebController {
     @GetMapping(WebMapper.CONTRACT_TABLE + "/close/{id}")
     public ModelAndView closeContract(@PathVariable("id") String id) {
         final String role = getRoleFromContext();
-        if (!"ADMIN".equals(role))
+        if (!SecurityConfig.ROLE_LORD.equals(role))
             throw new NotAuthorizedException();
 
         final Contract contract = contractStorage.find(id).orElseThrow(ResourceNotFoundException::new);

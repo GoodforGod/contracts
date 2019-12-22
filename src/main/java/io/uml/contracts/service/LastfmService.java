@@ -1,6 +1,7 @@
 package io.uml.contracts.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.uml.contracts.model.dao.Song;
 import io.uml.contracts.model.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,12 +52,13 @@ public class LastfmService {
                 String.class);
     }
 
-    public List<SimilarTrack> getSimilarTracks(String artist, String song) {
+    public List<Song> getSimilarTracks(String artist, String song) {
         try {
             final String uri = server + "?method=track.getsimilar&artist=" + artist + "&track=" + song + key;
             final ResponseEntity<String> entity = getExchange(uri);
             return Optional.ofNullable(mapper.readValue(entity.getBody(), SimilarResults.class))
                     .flatMap(r -> Optional.ofNullable(r.getSimilartracks()).map(SimilarTracks::getTrack))
+                    .map(r -> r.stream().map(SimilarTrack::asSong).collect(Collectors.toList()))
                     .orElse(Collections.emptyList());
         } catch (Exception e) {
             logger.error(e.getMessage());
@@ -64,12 +66,13 @@ public class LastfmService {
         }
     }
 
-    public List<SearchTrack> searchTracks(String song) {
+    public List<Song> searchTracks(String song) {
         try {
             final String uri = server + "?method=track.search&track=" + song + key;
             final ResponseEntity<String> entity = getExchange(uri);
             return Optional.ofNullable(mapper.readValue(entity.getBody(), SearchResults.class))
                     .map(r -> r.getResults().getTrackmatches().getTrack())
+                    .map(r -> r.stream().map(SearchTrack::asSong).collect(Collectors.toList()))
                     .orElse(Collections.emptyList());
         } catch (Exception e) {
             logger.error(e.getMessage());

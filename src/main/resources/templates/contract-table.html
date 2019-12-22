@@ -12,7 +12,7 @@
         <!--/*@thymesVar id="keys" type="java.util.List"*/-->
         <div th:if="${!contracts.isEmpty()}">
             <div class="tbl-header">
-                <table th:if="${role == 'ADMIN'}" cellpadding="0" cellspacing="0" border="0">
+                <table th:if="${role == 'LORD'}" cellpadding="0" cellspacing="0" border="0">
                     <colgroup>
                         <col style="width:30%"/>
                         <col style="width:30%"/>
@@ -43,7 +43,7 @@
                     </thead>
                 </table>
             </div>
-            <div th:if="${role == 'ADMIN'}" class="tbl-content">
+            <div th:if="${role != 'CLIENT'}" class="tbl-content">
                 <table cellpadding="0" cellspacing="0" border="0">
                     <colgroup>
                         <col style="width:30%"/>

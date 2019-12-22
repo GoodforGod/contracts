@@ -16,9 +16,11 @@ public class WebMapper {
     public static final String CONTRACT_COMMENT = SECURED + "/contracts/comment";
     public static final String CONTRACT_VIEW = SECURED + "/contracts/view";
 
-    public static final String PLAYLIST_TABLE = SECURED + "/playlist";
-    public static final String PLAYLIST_ADD = SECURED + "/playlist/create";
-    public static final String PLAYLIST_VIEW = SECURED + "/playlist/view";
+    public static final String PLAYLIST_TABLE = SECURED + "/playlists";
+    public static final String PLAYLIST_ADD = SECURED + "/playlists/create";
+
+    public static final String SONG_SIMILAR = SECURED + "/song/similar";
+    public static final String SONG_ADD = SECURED + "/song/add";
 
     public static final String CLEAN_TABLE = SECURED + "/cleans";
     public static final String CLEAN_ADD = SECURED + "/cleans/create";

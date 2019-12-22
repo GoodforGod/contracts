@@ -10,7 +10,7 @@
 
 
     <section>
-        <div class="text-center">
+        <div class="text-center" th:if="${role == 'DRAKS'}">
             <form th:action="@{'/sec/cleans/create'}">
                 <fieldset class="form-inline" style="width: 100px">
                     <button class="btn btn-primary center-block" type="submit">
@@ -49,10 +49,10 @@
                         <tr th:each="clean: ${cleans}">
                             <td th:text="${clean.description}"></td>
                             <td th:text="${clean.cleanDate.toLocalDateTime().toLocalDate()}"></td>
-                            <td th:if="${!clean.isPast()}">
+                            <td th:if="${!clean.isPast() && role == 'DRAKS'}">
                                 <i>
                                     <form th:action="@{'/sec/cleans/' + ${clean.id}}" th:method="DELETE">
-                                        <button class="btn btn btn-info" name="id" th:id="${clean.id}" type="Submit">
+                                        <button class="btn btn-danger" name="id" th:id="${clean.id}" type="Submit">
                                             <span th:text="Revoke"> </span>
                                         </button>
                                     </form>

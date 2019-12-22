@@ -4,78 +4,94 @@
     <div th:insert="fragments/header :: header-meta"></div>
     <title>Music View</title>
     <div th:insert="fragments/table :: table-meta"></div>
+
+    <script language="javascript">
+        function addAction() {
+            document.songForm.action = "/sec/song/add";
+            document.songForm.method = "post";
+            document.songForm.submit();
+        }
+
+        function searchSimilarAction() {
+            document.songForm.action = "/sec/song/similar";
+            document.songForm.method = "post";
+            document.songForm.submit();
+        }
+    </script>
 </head>
 <body>
 <div>
     <div th:replace="fragments/header :: header"></div>
 
     <section>
-        <div class="product-sidebar card mt-4">
-            <div class="card-body" th:if="${contract != null}" style="color: #cccccc">
-                <h1 class="display-3" th:text="${contract.title}"></h1>
-                <h3 class="display-5" th:text="${contract.phase}"></h3>
-                <h4 th:text="${contract.planet}"></h4>
-                <h6 th:text="${contract.type}"></h6>
-                <ul class="product-meta list-inline mt-3">
-                    <li class="d-flex align-items-center justify-content-between">
-                        <span th:text="${contract.requirements}"></span>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-between">
-                        <span th:text="${contract.comment}"></span>
-                    </li>
-                </ul>
-                <div class="btn-toolbar">
-                    <div class="btn-group mr-2" th:if="${role == 'ADMIN' && contract.phase.name() == 'AWAITS'}">
-                        <i>
-                            <form th:action="@{'/sec/contracts/approve/' + ${contract.id}}" th:method="GET">
-                                <button class="btn btn btn-info" name="id" th:id="${contract.id}" type="Submit">
-                                    <span> Approve </span>
-                                </button>
-                            </form>
-                        </i>
-                    </div>
-                    <div class="btn-group mr-2">
-                        <form th:action="@{'/sec/contracts/' + ${contract.id}}" th:method="DELETE">
-                            <button class="btn btn btn-info" name="id" th:id="${contract.id}"
-                                    type="Submit">
-                                <span> Revoke </span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+        <div class="product-sidebar card mt-4" th:if="${playlist != null}">
+            <div class="card-body" style="color: #cccccc">
+                <h1 class="display-3" th:text="${playlist.name}"></h1>
+                <h3 class="display-5" th:text="${'Songs: ' + playlist.songs.size()}"></h3>
             </div>
-        </div>
 
-        <div>
-            <div th:if="${!comments.isEmpty()}">
+            <div class="container">
+                <form th:method="POST" th:action="@{'/sec/song/add'}" name="songForm" id="songForm">
+                    <fieldset class="form-inline">
+                        <div style="padding: 5px">
+                            <input name="artist" placeholder="Artist Name" class="form-control" autocomplete="off"
+                                   style="width: 200px"/>
+                            <input name="song" placeholder="Song Name" class="form-control" autocomplete="off"
+                                   style="width: 200px"/>
+                            <input name="playlistId" th:value="${playlist.id}" type="hidden"/>
+                            <button class="btn btn-info" type="submit" style="width: 125px" onclick="addAction()">
+                                <span> Add </span>
+                            </button>
+                            <button class="btn btn-info" type="submit" style="width: 125px"
+                                    onclick="searchSimilarAction()">
+                                <span> Similar </span>
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <div th:if="${!playlist.songs.isEmpty()}">
                 <div class="tbl-header">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <colgroup>
-                            <col style="width:40%"/>
+                            <col style="width:30%"/>
                             <col style="width:40%"/>
                             <col style="width:20%"/>
+                            <col style="width:10%"/>
                         </colgroup>
                         <thead>
                         <tr>
-                            <th>Author</th>
-                            <th>Comment</th>
-                            <th>Date</th>
+                            <th style="color: black">Artist</th>
+                            <th style="color: black">Song</th>
+                            <th style="color: black">Duration</th>
+                            <th style="color: black"></th>
                         </tr>
                         </thead>
                     </table>
                 </div>
-                <div th:if="${!comments.isEmpty()}" class="tbl-content">
+                <div th:if="${!playlist.songs.isEmpty()}" class="tbl-content">
                     <table cellpadding="0" cellspacing="0" border="0">
                         <colgroup>
-                            <col style="width:40%"/>
+                            <col style="width:30%"/>
                             <col style="width:40%"/>
                             <col style="width:20%"/>
+                            <col style="width:10%"/>
                         </colgroup>
                         <tbody>
-                        <tr th:each="comment : ${comments}">
-                            <td th:text="${comment.author}"></td>
-                            <td th:text="${comment.value}"></td>
-                            <td th:text="${comment.date}"></td>
+                        <tr th:each="song : ${playlist.songs}">
+                            <td th:text="${song.artist}" style="color: black"></td>
+                            <td th:text="${song.name}" style="color: black"></td>
+                            <td th:text="${song.duration}" style="color: black"></td>
+                            <td>
+                                <i>
+                                    <form th:action="@{'/sec/playlists/' + ${playlist.id} + '/' + ${song.id}}" th:method="DELETE">
+                                        <button class="btn btn-danger" type="Submit">
+                                            <span> Remove </span>
+                                        </button>
+                                    </form>
+                                </i>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

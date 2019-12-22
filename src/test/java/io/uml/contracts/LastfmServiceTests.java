@@ -1,5 +1,6 @@
 package io.uml.contracts;
 
+import io.uml.contracts.model.dao.Song;
 import io.uml.contracts.model.dto.SearchTrack;
 import io.uml.contracts.model.dto.SimilarTrack;
 import io.uml.contracts.service.LastfmService;
@@ -30,14 +31,14 @@ public class LastfmServiceTests extends Assert {
 
     @Test
     public void similarFound() {
-        final List<SimilarTrack> tracks = lastfmService.getSimilarTracks("The Raspberries", "Go All the Way");
+        final List<Song> tracks = lastfmService.getSimilarTracks("The Raspberries", "Go All the Way");
         assertNotNull(tracks);
         assertEquals(100, tracks.size());
     }
 
     @Test
     public void searchTracks() {
-        final List<SearchTrack> tracks = lastfmService.searchTracks("Go All the Way");
+        final List<Song> tracks = lastfmService.searchTracks("Go All the Way");
         assertNotNull(tracks);
         assertEquals(30, tracks.size());
     }

@@ -2,6 +2,7 @@ package io.uml.contracts.model.dao;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,6 +18,7 @@ public class Song implements Serializable {
     @Id
     private String id;
     private String name;
+    private String artist;
 
     /**
      * Seconds
@@ -46,6 +48,15 @@ public class Song implements Serializable {
         this.name = name;
     }
 
+    public String getArtist() {
+        return artist;
+    }
+
+    public Song setArtist(String author) {
+        this.artist = author;
+        return this;
+    }
+
     public Integer getDuration() {
         return duration;
     }
@@ -62,4 +73,13 @@ public class Song implements Serializable {
     public void setPlaylists(List<Playlist> playlists) {
         this.playlists = playlists;
     }
+
+    public Song addPlaylist(Playlist playlist) {
+        if(this.playlists == null || this.playlists.isEmpty())
+            this.playlists = new ArrayList<>();
+
+        this.playlists.add(playlist);
+        return this;
+    }
+
 }

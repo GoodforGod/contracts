@@ -8,9 +8,8 @@
 <div>
     <div th:replace="fragments/header :: header"></div>
 
-
     <section>
-        <div class="text-center">
+        <div class="text-center" th:if="${role == 'ROCKET'}">
             <form th:action="@{'/sec/weapons/create'}">
                 <fieldset class="form-inline" style="width: 100px">
                     <button class="btn btn-primary center-block" type="submit">
@@ -57,10 +56,10 @@
                             <td th:text="${weapon.name}"></td>
                             <td th:text="${weapon.description}"></td>
                             <td th:text="${weapon.addDate}"></td>
-                            <td>
+                            <td th:if="${role == 'ROCKET'}">
                                 <i>
                                     <form th:action="@{'/sec/weapons/' + ${weapon.id}}" th:method="DELETE">
-                                        <button class="btn btn btn-info" name="id" th:id="${weapon.id}" type="Submit">
+                                        <button class="btn btn btn-danger" name="id" th:id="${weapon.id}" type="Submit">
                                             <span th:text="Delete"> </span>
                                         </button>
                                     </form>

@@ -35,10 +35,9 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse">
                     <span class="icon-bar"></span>
                     <span th:if="${role == 'CLIENT'}" class="icon-bar"></span>
-                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
-                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
-                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
-                    <span th:if="${role == 'ADMIN'}" class="icon-bar"></span>
+                    <span th:if="${role == 'LORD'}" class="icon-bar"></span>
+                    <span th:if="${role == 'ROCKET'}" class="icon-bar"></span>
+                    <span th:if="${role == 'GRAKS'}" class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
             </div>
@@ -46,9 +45,9 @@
                 <ul class="nav navbar-nav">
                     <li><a th:href="@{/sec/contracts}">Contracts</a></li>
                     <li th:if="${role == 'CLIENT'}"><a th:href="@{/sec/contracts/create}">Open Contract</a></li>
-                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/music}">Music</a></li>
-                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/weapons}">Weapons</a></li>
-                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/sec/cleans}">Cleaning</a></li>
+                    <li th:if="${role == 'LORD'}"><a th:href="@{/sec/playlists}">Music</a></li>
+                    <li th:if="${role == 'ROCKET' || role == 'LORD'}"><a th:href="@{/sec/weapons}">Weapons</a></li>
+                    <li th:if="${role == 'DRAKS' || role == 'LORD'}"><a th:href="@{/sec/cleans}">Cleaning</a></li>
                     <li>
                         <a href='#' onclick="logout()">Log Out</a>
                         <!--                        <form method="POST" th:action="@{/logout}">-->
