@@ -3,6 +3,7 @@ package io.uml.contracts.controller;
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
 import io.uml.contracts.model.dao.*;
+import io.uml.contracts.service.AuthService;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -40,8 +41,9 @@ public class TacticWebController extends BaseWebController {
     public TacticWebController(ClientStorage clientStorage,
                                MercenaryStorage mercenaryStorage,
                                TacticStorage tacticStorage,
-                               ContractStorage contractStorage) {
-        super(clientStorage, mercenaryStorage);
+                               ContractStorage contractStorage,
+                               AuthService authService) {
+        super(authService, clientStorage, mercenaryStorage);
         this.tacticStorage = tacticStorage;
         this.contractStorage = contractStorage;
     }
@@ -106,7 +108,7 @@ public class TacticWebController extends BaseWebController {
         return WebMapper.redirect(WebMapper.TACTIC_VIEW + "/" + tacticId);
     }
 
-    @PostMapping(WebMapper.TACTIC_ADD + "/" + "{contractId}")
+    @PostMapping(WebMapper.TACTIC_ADD + "/{contractId}")
     public String add(@PathVariable("contractId") String contractId,
                       @RequestParam("name") String name,
                       @RequestParam Map<String, String> params) {

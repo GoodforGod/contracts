@@ -24,7 +24,7 @@ public class Tactic {
     @JoinColumn(name = "contract_uid")
     private Contract contract;
 
-    @OneToMany(mappedBy = "tactic", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "tactic", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "tactic", cascade = CascadeType.ALL)

@@ -3,6 +3,7 @@ package io.uml.contracts.model.dao;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -41,6 +42,9 @@ public class Flight implements Serializable {
     }
 
     public List<String> getPlanetsList() {
+        if(planets == null || planets.isEmpty())
+            return Collections.emptyList();
+
         return Arrays.asList(planets.split(","));
     }
 

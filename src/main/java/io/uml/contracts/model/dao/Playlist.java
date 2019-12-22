@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,12 +24,12 @@ public class Playlist implements Serializable {
     private String name;
     private Timestamp created;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "mercenary_id")
     private Mercenary creator;
 
-    @ManyToMany(mappedBy = "playlists", cascade = CascadeType.ALL)
-    private List<Song> songs = Collections.emptyList();
+    @OneToMany(mappedBy = "playlist", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Song> songs = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -75,9 +74,6 @@ public class Playlist implements Serializable {
     }
 
     public void addSong(Song song) {
-        if(this.songs == null | this.songs.isEmpty())
-            this.songs = new ArrayList<>();
-
         this.songs.add(song);
     }
 }

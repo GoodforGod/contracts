@@ -3,6 +3,7 @@ package io.uml.contracts.controller;
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.model.dao.Playlist;
 import io.uml.contracts.model.dao.Song;
+import io.uml.contracts.service.AuthService;
 import io.uml.contracts.service.LastfmService;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static io.uml.contracts.config.TemplateMapper.*;
 
@@ -38,8 +38,9 @@ public class PlaylistWebController extends BaseWebController {
                                  MercenaryStorage mercenaryStorage,
                                  PlaylistStorage playlistStorage,
                                  SongStorage songStorage,
-                                 LastfmService lastfmService) {
-        super(clientStorage, mercenaryStorage);
+                                 LastfmService lastfmService,
+                                 AuthService authService) {
+        super(authService, clientStorage, mercenaryStorage);
         this.playlistStorage = playlistStorage;
         this.songStorage = songStorage;
         this.lastfmService = lastfmService;
@@ -59,19 +60,24 @@ public class PlaylistWebController extends BaseWebController {
 
     @DeleteMapping(WebMapper.PLAYLIST_TABLE + "/{id}")
     public String deletePlaylist(@PathVariable("id") String id) {
-        playlistStorage.delete(id);
+        playlistStorage.find(id).ifPresent(p -> {
+            p.setCreator(null);
+            p.setSongs(null);
+            playlistStorage.save(p);
+            playlistStorage.delete(id);
+        });
         return WebMapper.redirect(WebMapper.PLAYLIST_TABLE);
     }
 
     @DeleteMapping(WebMapper.PLAYLIST_TABLE + "/{playlistId}" + "/song/{songId}")
     public String deleteSong(@PathVariable("playlistId") String playlistId,
-                                 @PathVariable("songId") String songId) {
-        playlistStorage.find(playlistId).ifPresent(p -> {
-            final List<Song> songs = p.getSongs().stream()
-                    .filter(s -> !s.getId().equals(songId))
-                    .collect(Collectors.toList());
-            p.setSongs(songs);
-            playlistStorage.save(p);
+                             @PathVariable("songId") String songId) {
+        playlistStorage.find(playlistId).flatMap(p -> p.getSongs().stream()
+                .filter(s -> s.getId().equals(songId))
+                .findFirst()).ifPresent(s -> {
+            s.setPlaylist(null);
+            songStorage.save(s);
+            songStorage.delete(s.getId());
         });
 
         return WebMapper.redirect(WebMapper.PLAYLIST_TABLE + "/" + playlistId);
@@ -116,8 +122,7 @@ public class PlaylistWebController extends BaseWebController {
             song.setName(name);
             song.setArtist(artist);
             p.addSong(song);
-            song.addPlaylist(p);
-
+            song.setPlaylist(p);
             playlistStorage.save(p);
         });
 
@@ -129,13 +134,13 @@ public class PlaylistWebController extends BaseWebController {
                                   @RequestParam("artist") String artist,
                                   @RequestParam("playlistId") String playlistId) {
         playlistStorage.find(playlistId).ifPresent(p -> {
-            lastfmService.searchTracks(name).stream().findFirst()
-                    .ifPresent(s -> lastfmService.getSimilarTracks(s.getArtist(), s.getName()).forEach(song -> {
-                        song.addPlaylist(p);
-                        p.addSong(song);
-                    }));
-
-            playlistStorage.save(p);
+            lastfmService.searchTracks(name).stream().findFirst().ifPresent(s -> {
+                lastfmService.getSimilarTracks(s.getArtist(), s.getName()).forEach(song -> {
+                    song.setPlaylist(p);
+                    p.addSong(song);
+                });
+                playlistStorage.save(p);
+            });
         });
 
         return WebMapper.redirect(WebMapper.PLAYLIST_TABLE + "/" + playlistId);

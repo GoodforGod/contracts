@@ -55,7 +55,7 @@ public class Contract implements Serializable {
     @JoinColumn(name = "client_uid")
     private Client client;
 
-    @OneToMany(mappedBy = "contract", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "contract", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     public void setPhase(ContractPhase phase) {

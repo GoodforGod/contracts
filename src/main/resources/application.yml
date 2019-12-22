@@ -61,6 +61,10 @@ spring:
 
 ---
 
+security:
+  basic:
+    enalbed: false
+
 spring:
   profiles: test
 

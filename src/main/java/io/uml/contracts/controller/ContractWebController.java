@@ -8,6 +8,7 @@ import io.uml.contracts.model.dao.Client;
 import io.uml.contracts.model.dao.Comment;
 import io.uml.contracts.model.dao.Contract;
 import io.uml.contracts.model.dao.Mercenary;
+import io.uml.contracts.service.AuthService;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -38,8 +39,9 @@ public class ContractWebController extends BaseWebController {
     @Autowired
     protected ContractWebController(ClientStorage clientStorage,
                                     MercenaryStorage mercenaryStorage,
-                                    ContractStorage contractStorage) {
-        super(clientStorage, mercenaryStorage);
+                                    ContractStorage contractStorage,
+                                    AuthService authService) {
+        super(authService, clientStorage, mercenaryStorage);
         this.contractStorage = contractStorage;
     }
 
@@ -87,7 +89,7 @@ public class ContractWebController extends BaseWebController {
 
     @GetMapping(WebMapper.CONTRACT_TABLE + "/approve/{id}")
     public ModelAndView approveContract(@PathVariable("id") String id) {
-        String role = getRoleFromContext();
+        final String role = getRoleFromContext();
         if (!SecurityConfig.ROLE_LORD.equals(role)) {
             throw new NotAuthorizedException();
         }

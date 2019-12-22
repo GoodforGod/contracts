@@ -25,12 +25,9 @@ public class Song implements Serializable {
      */
     private Integer duration;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ccc_song_to_playlist",
-            joinColumns = @JoinColumn(name = "playlist_id"),
-            inverseJoinColumns = @JoinColumn(name = "song_id"))
-    private List<Playlist> playlists;
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "playlist_id")
+    private Playlist playlist;
 
     public String getId() {
         return id;
@@ -66,20 +63,12 @@ public class Song implements Serializable {
         return this;
     }
 
-    public List<Playlist> getPlaylists() {
-        return playlists;
+    public Playlist getPlaylist() {
+        return playlist;
     }
 
-    public void setPlaylists(List<Playlist> playlists) {
-        this.playlists = playlists;
-    }
-
-    public Song addPlaylist(Playlist playlist) {
-        if(this.playlists == null || this.playlists.isEmpty())
-            this.playlists = new ArrayList<>();
-
-        this.playlists.add(playlist);
+    public Song setPlaylist(Playlist playlist) {
+        this.playlist = playlist;
         return this;
     }
-
 }

@@ -62,7 +62,7 @@ public abstract class BasicStorage<T, ID extends Serializable>
     @Override
     public Optional<T> save(T t) {
         try {
-            return isValid(t) ? Optional.ofNullable(repository.save(t)) : Optional.empty();
+            return isValid(t) ? Optional.of(repository.save(t)) : Optional.empty();
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Optional.empty();

@@ -2,6 +2,7 @@ package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.model.dao.Weapon;
+import io.uml.contracts.service.AuthService;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
 import io.uml.contracts.storage.impl.WeaponStorage;
@@ -32,8 +33,9 @@ public class WeaponWebController extends BaseWebController {
     @Autowired
     public WeaponWebController(ClientStorage clientStorage,
                                MercenaryStorage mercenaryStorage,
-                               WeaponStorage weaponStorage) {
-        super(clientStorage, mercenaryStorage);
+                               WeaponStorage weaponStorage,
+                               AuthService authService) {
+        super(authService, clientStorage, mercenaryStorage);
         this.weaponStorage = weaponStorage;
     }
 

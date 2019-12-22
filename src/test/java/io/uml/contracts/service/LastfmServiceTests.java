@@ -1,5 +1,6 @@
-package io.uml.contracts;
+package io.uml.contracts.service;
 
+import io.uml.contracts.ContractRunner;
 import io.uml.contracts.model.dao.Song;
 import io.uml.contracts.model.dto.SearchTrack;
 import io.uml.contracts.model.dto.SimilarTrack;
@@ -24,7 +25,7 @@ import java.util.List;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
-public class LastfmServiceTests extends Assert {
+public class LastfmServiceTests extends ContractRunner {
 
     @Autowired
     private LastfmService lastfmService;

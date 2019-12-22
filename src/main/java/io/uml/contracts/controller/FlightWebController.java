@@ -4,6 +4,7 @@ import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.controller.error.ResourceNotFoundException;
 import io.uml.contracts.model.dao.Contract;
 import io.uml.contracts.model.dao.Flight;
+import io.uml.contracts.service.AuthService;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.ContractStorage;
 import io.uml.contracts.storage.impl.FlightStorage;
@@ -38,8 +39,9 @@ public class FlightWebController extends BaseWebController {
     public FlightWebController(ClientStorage clientStorage,
                                MercenaryStorage mercenaryStorage,
                                FlightStorage flightStorage,
-                               ContractStorage contractStorage) {
-        super(clientStorage, mercenaryStorage);
+                               ContractStorage contractStorage,
+                               AuthService authService) {
+        super(authService, clientStorage, mercenaryStorage);
         this.flightStorage = flightStorage;
         this.contractStorage = contractStorage;
     }

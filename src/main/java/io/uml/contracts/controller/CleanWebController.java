@@ -2,6 +2,7 @@ package io.uml.contracts.controller;
 
 import io.uml.contracts.config.WebMapper;
 import io.uml.contracts.model.dao.CleaningLog;
+import io.uml.contracts.service.AuthService;
 import io.uml.contracts.storage.impl.CleaningLogStorage;
 import io.uml.contracts.storage.impl.ClientStorage;
 import io.uml.contracts.storage.impl.MercenaryStorage;
@@ -33,8 +34,9 @@ public class CleanWebController extends BaseWebController {
     @Autowired
     public CleanWebController(ClientStorage clientStorage,
                               MercenaryStorage mercenaryStorage,
-                              CleaningLogStorage cleaningLogStorage) {
-        super(clientStorage, mercenaryStorage);
+                              CleaningLogStorage cleaningLogStorage,
+                              AuthService authService) {
+        super(authService, clientStorage, mercenaryStorage);
         this.cleaningLogStorage = cleaningLogStorage;
     }
 
